@@ -5,6 +5,12 @@ import java.awt.image.BufferedImage;
 import ev.math.Ray;
 import ev.math.Vec3;
 
+/**
+ * Raytracer is the most vanilla implementation of the IRenderer interface.
+ * It renders scenes using a basic raytracing technique.
+ * 
+ * @since 1.0
+ */
 public class Raytracer implements IRenderer {
 
 	@Override
@@ -13,7 +19,7 @@ public class Raytracer implements IRenderer {
 		
 	}
 	
-	public Intersection trace(Ray r) {
+	public Intersection trace(Ray r, Scene s) {
 		return null;
 	}
 	

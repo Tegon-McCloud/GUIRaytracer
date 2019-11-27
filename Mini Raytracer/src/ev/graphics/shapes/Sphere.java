@@ -5,9 +5,15 @@ import ev.math.Ray;
 import ev.math.Vec2;
 import ev.math.Vec3;
 
-public class Sphere extends Shape {
+/**
+ * A sphere.
+ * 
+ * @since 1.0
+ */
+public class Sphere implements Shape {
 
-	float radius;
+	public Vec3 pos;
+	public float radius;
 	
 	@Override
 	public float intersect(Ray r) {

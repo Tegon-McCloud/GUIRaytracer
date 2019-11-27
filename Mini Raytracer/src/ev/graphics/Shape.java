@@ -4,10 +4,16 @@ import ev.math.Ray;
 import ev.math.Vec2;
 import ev.math.Vec3;
 
-public abstract class Shape {
+/**
+ * A shape is anything with a 3D representation that could part of a scene.
+ * Scene forces objects to implement necessary methods for rendering.
+ * 
+ * @since 1.0
+ */
+public interface Shape {
 	
-	public abstract float intersect(Ray r);
-	public abstract Vec2 texCoord(Vec3 surfPos);
-	public abstract Vec3 normal(Vec3 surfPos);
+	public float intersect(Ray r);
+	public Vec2 texCoord(Vec3 surfPos);
+	public Vec3 normal(Vec3 surfPos);
 	
 }
