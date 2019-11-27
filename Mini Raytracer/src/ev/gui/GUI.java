@@ -73,29 +73,26 @@ class ImagePanel extends JPanel {
 		
 		float imgAspect = img.getWidth() / (float)img.getHeight();
 		float thisAspect = getWidth() / (float)getHeight();
+		int x, y, drawWidth, drawHeight;
 		
 		if(thisAspect <= imgAspect) { // if image is relatively wider than panel
-			
-			int drawWidth = getWidth();							// width is just width
-			int drawHeight = (int) (getWidth() / imgAspect);	// height is panel-width scaled by 1/imgAspect
-			int x = 0;											// at horizontal edge
-			int y = (int) ((getHeight() - drawHeight) / 2f);	// vertically centered
-			g.drawImage(img, x, y, drawWidth, drawHeight, null);
-			
+			drawWidth = getWidth();							// width is just width
+			drawHeight = (int) (getWidth() / imgAspect);	// height is panel-width scaled by 1/imgAspect
+			x = 0;											// at horizontal edge
+			y = (int) ((getHeight() - drawHeight) / 2f);	// vertically centered
 		}else {
-			
-			int drawWidth = (int) (getHeight() * imgAspect);	// width is height scaled by imgAspect
-			int drawHeight = getHeight(); 						// height is same as panel
-			int x = (int) ((getWidth() - drawWidth) / 2f);		// Horizontally centered
-			int y = 0;											// vertically at edge
-			g.drawImage(img, x, y, drawWidth, drawHeight, null);
-			
+			drawWidth = (int) (getHeight() * imgAspect);	// width is height scaled by imgAspect
+			drawHeight = getHeight(); 						// height is same as panel
+			x = (int) ((getWidth() - drawWidth) / 2f);		// Horizontally centered
+			y = 0;											// vertically at edge
 		}
+		
+		g.drawImage(img, x, y, drawWidth, drawHeight, null);
 		
 	}
 	
 	/**
-	 * Makes the panel display another image.
+	 * Makes the panel display a given image.
 	 * 
 	 * @param img the BufferedImage to display. If null the panel won't display anything.
 	 * @return void
