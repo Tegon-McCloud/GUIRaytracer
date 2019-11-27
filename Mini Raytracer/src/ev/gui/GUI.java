@@ -12,8 +12,6 @@ import javax.swing.JPanel;
 
 /**
  * The GUI class is responsible for handling all GUI activity, including handling of input.
- * 
- * @since 1.0
  */
 public class GUI {
 	
@@ -43,8 +41,6 @@ public class GUI {
 
 /**
  * The ImagePanel is a JPanel subclass that simply displays an image.
- * 
- * @since 1.0
  */
 @SuppressWarnings("serial")
 class ImagePanel extends JPanel {
@@ -52,7 +48,6 @@ class ImagePanel extends JPanel {
 	/**
 	 * Creates a ImagePanel displaying img.
 	 * 
-	 * @since 1.0
 	 * @param img the BufferedImage to display
 	 */
 	public ImagePanel(BufferedImage img) {
@@ -61,8 +56,6 @@ class ImagePanel extends JPanel {
 	
 	/**
 	 * Creates a ImagePanel displaying nothing.
-	 * 
-	 * @since 1.0
 	 */
 	public ImagePanel() {
 		this(null);
@@ -104,7 +97,6 @@ class ImagePanel extends JPanel {
 	/**
 	 * Makes the panel display another image.
 	 * 
-	 * @since 1.0
 	 * @param img the BufferedImage to display. If null the panel won't display anything.
 	 * @return void
 	 */

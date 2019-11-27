@@ -7,8 +7,6 @@ import ev.math.Vec3;
 /**
  * A shape is anything with a 3D representation that could part of a scene.
  * Scene forces objects to implement necessary methods for rendering.
- * 
- * @since 1.0
  */
 public interface Shape {
 	

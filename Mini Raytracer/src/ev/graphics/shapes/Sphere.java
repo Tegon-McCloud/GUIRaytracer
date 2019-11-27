@@ -7,8 +7,6 @@ import ev.math.Vec3;
 
 /**
  * A sphere.
- * 
- * @since 1.0
  */
 public class Sphere implements Shape {
 

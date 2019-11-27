@@ -7,8 +7,6 @@ import ev.math.Vec3;
 /**
  * A Scene object aggregates lights and shapes for easy passing in rendering.
  * It also holds the background to render with.
- * 
- * @since 1.0
  */
 public class Scene {
 	

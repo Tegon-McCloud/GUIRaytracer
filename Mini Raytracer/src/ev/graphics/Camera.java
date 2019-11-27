@@ -6,11 +6,10 @@ import ev.math.Vec3;
 /**
  * A Camera holds information about position, direction, width and height of image etc.
  * It also implements methods for generating rays.
- * 
- * @since 1.0
  */
 public class Camera {
 	
+	private float fov;
 	private int width, height;
 	private Vec3 pos, dir;
 	
@@ -36,6 +35,16 @@ public class Camera {
 	public void resize(int width, int height) {
 		this.width = width;
 		this.height = height;
+	}
+	
+	/**
+	 * Sets the new fov of this camera.
+	 * 
+	 * @param fov the new fov
+	 * @return void
+	 */
+	public void setFov(float fov) {
+		this.fov = fov;
 	}
 	
 	/**
