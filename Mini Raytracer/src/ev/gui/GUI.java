@@ -10,6 +10,11 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import ev.graphics.Camera;
+import ev.graphics.Raytracer;
+import ev.graphics.Scene;
+import ev.math.Vec3;
+
 /**
  * The GUI class is responsible for handling all GUI activity, including handling of input.
  */
@@ -25,7 +30,13 @@ public class GUI {
 		
 		// for testing
 		ImagePanel imgp = new ImagePanel();
-		imgp.set(ImageIO.read(new File("C:\\test\\raytraced.png")));
+		
+		Scene s = new Scene(new Vec3(0f, 0f, 0.5f));
+		Camera c = new Camera(new Vec3(), 0, 0, 0, 400, 400, (float)Math.PI/2, 4);
+		
+		Raytracer r = new Raytracer();
+		
+		imgp.set(r.render(s, c));
 		imgp.setPreferredSize(new Dimension(400, 400));
 		imgp.setBackground(new Color(0, 0, 0));
 		frame.setContentPane(imgp);

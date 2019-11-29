@@ -11,12 +11,12 @@ import ev.math.Vec3;
 public class Camera {
 	
 	private Vec3 pos;
-	private int width, height;
+	private int width, height, maxDepth;
 	private float fov, yaw, pitch, roll;
 	
+	// pre-calculated variables so every ray doesn't have to use cpu cycles calculating these.
 	private float tanHalfHFov, tanHalfVFov;
 	private Matrix33 rotation;
-	
 	
 	/**
 	 * Construct a camera and set position, direction, image width and height and fov.
@@ -29,11 +29,12 @@ public class Camera {
 	 * @param height the initial image height
 	 * @param fov the initial fov
 	 */
-	public Camera(Vec3 pos, float yaw, float pitch, float roll, int width, int height, float fov) {
+	public Camera(Vec3 pos, float yaw, float pitch, float roll, int width, int height, float fov, int maxDepth) {
 		moveTo(pos);
 		resize(width, height);
 		setFov(fov);
 		setYawPitchRoll(yaw, pitch, roll);
+		
 	}
 
 	/**
@@ -74,7 +75,9 @@ public class Camera {
 	 */
 	public void setYaw(float yaw) {
 		this.yaw = yaw;
-		rotation = Matrix33.getYRotationMatrix(yaw).mul(Matrix33.getXRotationMatrix(pitch).mul(Matrix33.getZRotationMatrix(roll)));
+		rotation = Matrix33.getYRotationMatrix(yaw).mul(
+				Matrix33.getXRotationMatrix(pitch).mul(
+						Matrix33.getZRotationMatrix(roll)));
 	}
 	
 	/**
@@ -82,7 +85,9 @@ public class Camera {
 	 */
 	public void setPitch(float pitch) {
 		this.pitch = pitch;
-		rotation = Matrix33.getYRotationMatrix(yaw).mul(Matrix33.getXRotationMatrix(pitch).mul(Matrix33.getZRotationMatrix(roll)));
+		rotation = Matrix33.getYRotationMatrix(yaw).mul(
+				Matrix33.getXRotationMatrix(pitch).mul(
+						Matrix33.getZRotationMatrix(roll)));
 	}
 	
 	/**
@@ -90,7 +95,9 @@ public class Camera {
 	 */
 	public void setRoll(float roll) {
 		this.roll = roll;
-		rotation = Matrix33.getYRotationMatrix(yaw).mul(Matrix33.getXRotationMatrix(pitch).mul(Matrix33.getZRotationMatrix(roll)));
+		rotation = Matrix33.getYRotationMatrix(yaw).mul(
+						Matrix33.getXRotationMatrix(pitch).mul(
+								Matrix33.getZRotationMatrix(roll)));
 	}
 	
 	/**
@@ -103,13 +110,85 @@ public class Camera {
 	public void setYawPitchRoll(float yaw, float pitch, float roll) {
 		this.yaw = yaw;
 		this.pitch = pitch;
-		this.roll = roll;		
+		this.roll = roll;
 		
-		rotation = Matrix33.getZRotationMatrix(roll)
-				.mul(Matrix33.getXRotationMatrix(pitch))
-				.mul(Matrix33.getYRotationMatrix(yaw));
+		rotation = Matrix33.getYRotationMatrix(yaw).mul( // yaw around y at last
+				Matrix33.getXRotationMatrix(pitch).mul( // pitch around x
+						Matrix33.getZRotationMatrix(roll))); // roll around z
 	}
 	
+	/**
+	 * @param maxDepth the desired maxDepth
+	 */
+	public void setMaxDepth(int maxDepth) {
+		this.maxDepth = maxDepth;
+	}
+	
+	
+	
+	/**
+	 * @return the pos
+	 */
+	public Vec3 getPos() {
+		return pos;
+	}
+
+	/**
+	 * @return the width
+	 */
+	public int getWidth() {
+		return width;
+	}
+
+	/**
+	 * @return the height
+	 */
+	public int getHeight() {
+		return height;
+	}
+
+	/**
+	 * @return the maxDepth
+	 */
+	public int getMaxDepth() {
+		return maxDepth;
+	}
+
+	/**
+	 * @return the fov
+	 */
+	public float getFov() {
+		return fov;
+	}
+
+	/**
+	 * @return the yaw
+	 */
+	public float getYaw() {
+		return yaw;
+	}
+
+	/**
+	 * @return the pitch
+	 */
+	public float getPitch() {
+		return pitch;
+	}
+
+	/**
+	 * @return the roll
+	 */
+	public float getRoll() {
+		return roll;
+	}
+
+	/**
+	 * @return the rotation
+	 */
+	public Matrix33 getRotation() {
+		return rotation;
+	}
+
 	/**
 	 * Generates a Ray with the position and direction for the specified pixel.
 	 * 
@@ -126,26 +205,11 @@ public class Camera {
 		
 		r.dir.x = 2 * tanHalfHFov * xFrac - tanHalfHFov;
 		r.dir.y = 2 * tanHalfVFov * yFrac - tanHalfVFov;
-		//r.dir = r.dir.normalized();
 		r.dir = r.dir.mul(rotation);
+		r.dir = r.dir.normalized();
 		
 		return r;
 		
-	}
-	
-	public static void main(String[] args) {
-		
-		Camera c = new Camera(new Vec3(0f, 0f, 0f), 1f, 1f, 0f, 12, 10, (float)Math.PI/2);
-		
-		System.out.println(Matrix33.getZRotationMatrix(0).toGGB());
-		System.out.println(Matrix33.getXRotationMatrix(1).toGGB());
-		System.out.println(Matrix33.getYRotationMatrix(1).toGGB());
-		
-		for(int i = 0; i < 12; i++) {
-			for(int j = 0; j < 10; j++) {
-				System.out.println(c.generateRay(i, j).dir.toGGB() + ", ");
-			}
-		}
 	}
 	
 }

@@ -18,6 +18,12 @@ public class Vec3 {
 		y = v.y;
 		z = v.z;
 	}
+	
+	public Vec3() {
+		x = 0;
+		y = 0;
+		z = 0;
+	}
 
 	public Vec3 add(Vec3 v) {
 		return new Vec3(x + v.x, y + v.y, z + v.z);

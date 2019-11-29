@@ -11,6 +11,10 @@ import ev.math.Vec3;
 public class Scene {
 	
 	public Vec3 background;
-	public List<Shape> shapes;	
+	public List<Shape> shapes;
+	
+	public Scene(Vec3 background) {
+		this.background = background;
+	}
 	
 }
