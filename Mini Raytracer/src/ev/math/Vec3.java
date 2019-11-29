@@ -56,9 +56,9 @@ public class Vec3 {
 		return (float) Math.sqrt(x*x + y*y + z*z);
 	}
 	
-	/*public Vec3 mul(Matrix44 m) {
+	public Vec3 mul(Matrix33 m) {
 		return new Vec3(m.m00 * x  + m.m01 * y + m.m02 * z, m.m10 * x  + m.m11 * y + m.m12 * z, m.m20 * x  + m.m21 * y + m.m22 * z);
-	}*/
+	}
 	
 	@Override
 	public String toString() {
