@@ -67,7 +67,36 @@ public class Camera {
 	 * @return a ray with the correct position and direction for the pixel.
 	 */
 	public Ray generateRay(int x, int y) {
-		return null;
+		
+		float xFrac = (x + 0.5f)/width;
+		float yFrac = (y + 0.5f)/height;
+		
+		float hfov = fov * width/(float)height;
+		float tanHalfHFov = (float)Math.tan(hfov/2);
+		float tanHalfVFov = (float)Math.tan(fov/2);
+		
+		Ray r = new Ray(new Vec3(pos), new Vec3(0, 0, 1));
+		
+		r.dir.x = 2 * tanHalfHFov * xFrac - tanHalfHFov;
+		r.dir.y = 2 * tanHalfVFov * yFrac - tanHalfVFov;
+		r.dir = r.dir.normalized();
+		
+		
+		
+		return r;
+		
+	}
+	
+	public static void main(String[] args) {
+		
+		Camera c = new Camera(new Vec3(0f, 0f, 0f), new Vec3(1f, 4f, 8f), 12, 10, (float)Math.PI/2);
+		
+		
+		for(int i = 0; i < 12; i++) {
+			for(int j = 0; j < 10; j++) {
+				System.out.println(c.generateRay(i, j).dir.toGGB() + ", ");
+			}
+		}
 	}
 	
 }
