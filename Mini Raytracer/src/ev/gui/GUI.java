@@ -28,6 +28,8 @@ import static javax.swing.SpringLayout.SOUTH;
 import static javax.swing.SpringLayout.WEST;
 import static javax.swing.SpringLayout.EAST;
 
+import static java.lang.Math.PI;
+
 
 /**
  * The GUI class is responsible for handling all GUI activity, including handling of input.
@@ -73,11 +75,13 @@ public class GUI {
 	}
 	
 	public static Scene getScene() {
-		return null;
+		// test scene
+		return new Scene(new Vec3(0.5f, 0.0f, 0.0f));
 	}
 	
 	public static Camera getCamera() {
-		return null;
+		// test camera
+		return new Camera(new Vec3(0, 1, -1), -(float)PI * 0.25f, 0, 0, 400, 400, (float)PI * 0.5f, 1);
 	}
 	
 }
@@ -203,8 +207,11 @@ class RenderPanel extends JPanel {
 		@Override
 		protected void done() {
 			try {
+				System.out.println("Finished rendering");
 				target.display(get());
-			} catch (InterruptedException | ExecutionException e) {} // shouldn't happen as doInBackground doesn't throw anything
+			} catch (InterruptedException | ExecutionException e) { // shouldn't happen as doInBackground doesn't throw anything
+				e.printStackTrace();
+			}
 		}
 		
 	}

@@ -1,5 +1,6 @@
 package ev.graphics;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ev.math.Vec3;
@@ -14,6 +15,7 @@ public class Scene {
 	public List<Shape> shapes;
 	
 	public Scene(Vec3 background) {
+		shapes = new ArrayList<Shape>();
 		this.background = background;
 	}
 	

@@ -61,11 +61,12 @@ public class Raytracer implements Renderer {
 	private Vec3 trace(Ray r, int depth) {
 		
 		Intersection intersection = cast(r); // find whatever r intersects with first.
-		if(intersection.getShape() != null) { 
-			return intersection.getShape().getDiffuse().get( intersection.getShape().texCoord( intersection.getRay().insert(intersection.getDist()) ) );
+		if(intersection.getShape() == null) {
+			return scene.background;
 		}
 		
-		return scene.background;
+		return intersection.getShape().getDiffuse().get( intersection.getShape().texCoord( intersection.getRay().insert(intersection.getDist()) ) );
+		
 	}
 
 }
