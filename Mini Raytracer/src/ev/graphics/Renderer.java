@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
  * An IRenderer promises to have the render function, effectively making it
  * a rendering engine that is usable for the GUI.
  */
-public interface IRenderer {
+public interface Renderer {
 	/**
 	 * Renders a scene to a BufferedImage and returns it.
 	 * 

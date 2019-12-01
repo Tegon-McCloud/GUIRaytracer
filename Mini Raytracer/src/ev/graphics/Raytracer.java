@@ -9,7 +9,7 @@ import ev.math.Vec3;
  * Raytracer is the most vanilla implementation of the IRenderer interface.
  * It renders scenes using a basic raytracing technique.
  */
-public class Raytracer implements IRenderer {
+public class Raytracer implements Renderer {
 	
 	private Scene scene;
 	private Camera camera;
