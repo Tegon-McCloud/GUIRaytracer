@@ -1,10 +1,21 @@
 package ev.math;
 
 /**
- * Vec3 represents a float-based 3D vector.
+ * Vec2 represents a float-based 2D vector.
  */
 public class Vec2 {
 	
-	float x, y;
+	public float x, y;
+
+	/**
+	 * @param x
+	 * @param y
+	 */
+	public Vec2(float x, float y) {
+		this.x = x;
+		this.y = y;
+	}
+	
+	
 	
 }

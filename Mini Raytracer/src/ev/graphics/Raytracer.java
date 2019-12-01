@@ -59,6 +59,9 @@ public class Raytracer implements IRenderer {
 	}
 	
 	private Vec3 trace(Ray r, int depth) {
+		
+		
+		
 		return scene.background;
 	}
 

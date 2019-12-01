@@ -4,15 +4,15 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.File;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import ev.graphics.Camera;
 import ev.graphics.Raytracer;
 import ev.graphics.Scene;
+import ev.graphics.textures.Checkerboard;
+import ev.math.Vec2;
 import ev.math.Vec3;
 
 /**
@@ -31,12 +31,26 @@ public class GUI {
 		// for testing
 		ImagePanel imgp = new ImagePanel();
 		
-		Scene s = new Scene(new Vec3(0f, 0f, 0.5f));
-		Camera c = new Camera(new Vec3(), 0, 0, 0, 400, 400, (float)Math.PI/2, 4);
+//		Scene s = new Scene(new Vec3(0f, 0f, 0.5f));
+//		Camera c = new Camera(new Vec3(), 0, 0, 0, 400, 400, (float)Math.PI/2, 4);
+//		
+//		Raytracer r = new Raytracer();
+//		
+//		imgp.set(r.render(s, c));
 		
-		Raytracer r = new Raytracer();
+		// test of checkerboard
+		Checkerboard tex = new Checkerboard(new Vec3(0.5f, 0, 0), new Vec3(0, 0.5f, 0), 8);
+		BufferedImage img = new BufferedImage(88, 44, BufferedImage.TYPE_INT_RGB);
 		
-		imgp.set(r.render(s, c));
+		for(int i = 0; i < img.getWidth(); i++) {
+			for(int j = 0; j < img.getHeight(); j++) {
+				Vec3 color = tex.get(new Vec2((float)i / img.getWidth(), (float)j / img.getHeight()));
+				
+				img.setRGB(i, j, ((int) (color.x * 255) << 16) | ((int) (color.y * 255) << 8) | ((int) (color.z * 255) << 0));
+			}
+		}
+		
+		imgp.set(img);
 		imgp.setPreferredSize(new Dimension(400, 400));
 		imgp.setBackground(new Color(0, 0, 0));
 		frame.setContentPane(imgp);
