@@ -18,6 +18,9 @@ public abstract class Shape {
 	private Texture2D<Vec3> diffuse;
 	private Texture2D<Vec2> specular;
 	
+	/**
+	 * Constructs a shape with default diffuse and specular textures.
+	 */
 	public Shape() {
 		
 		diffuse = new Checkerboard((Checkerboard)DEFAULT_DIFFUSE); // copy default, as none were provided
