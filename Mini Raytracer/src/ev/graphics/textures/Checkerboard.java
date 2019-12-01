@@ -23,6 +23,17 @@ public class Checkerboard implements Texture2D<Vec3> {
 		this.col2 = col2;
 		this.squaresInASide = sideSquares;
 	}
+	
+	/**
+	 * Copy constructor
+	 * 
+	 * @param orig the original Checkerboard to be copied
+	 */
+	public Checkerboard(Checkerboard orig) {
+		col1 = new Vec3(orig.col1);
+		col2 = new Vec3(orig.col2);
+		squaresInASide = orig.squaresInASide;
+	}
 
 	@Override
 	public Vec3 get(Vec2 uv) {

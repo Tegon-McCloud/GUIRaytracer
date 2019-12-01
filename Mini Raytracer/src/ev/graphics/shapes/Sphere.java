@@ -8,7 +8,7 @@ import ev.math.Vec3;
 /**
  * A sphere.
  */
-public class Sphere implements Shape {
+public class Sphere extends Shape {
 
 	public Vec3 pos;
 	public float radius;

@@ -39,17 +39,17 @@ class MatrixTest {
 	}
 	
 	private static void assertMatrixEquals(Matrix33 expected, Matrix33 actual, float percentageError) {
-		assertEquals(expected.m00, actual.m00, expected.m10 * 0.01f * percentageError);
-		assertEquals(expected.m01, actual.m01, expected.m10 * 0.01f * percentageError);
-		assertEquals(expected.m02, actual.m02, expected.m10 * 0.01f * percentageError);
+		assertEquals(expected.m00, actual.m00, (float)Math.abs(expected.m10) * 0.01f * percentageError);
+		assertEquals(expected.m01, actual.m01, (float)Math.abs(expected.m10) * 0.01f * percentageError);
+		assertEquals(expected.m02, actual.m02, (float)Math.abs(expected.m10) * 0.01f * percentageError);
 		
-		assertEquals(expected.m10, actual.m10, expected.m10 * 0.01f * percentageError);
-		assertEquals(expected.m11, actual.m11, expected.m11 * 0.01f * percentageError);
-		assertEquals(expected.m12, actual.m12, expected.m12 * 0.01f * percentageError);
+		assertEquals(expected.m10, actual.m10, (float)Math.abs(expected.m10) * 0.01f * percentageError);
+		assertEquals(expected.m11, actual.m11, (float)Math.abs(expected.m11) * 0.01f * percentageError);
+		assertEquals(expected.m12, actual.m12, (float)Math.abs(expected.m12) * 0.01f * percentageError);
 		
-		assertEquals(expected.m20, actual.m20, expected.m20 * 0.01f * percentageError);
-		assertEquals(expected.m21, actual.m21, expected.m21 * 0.01f * percentageError);
-		assertEquals(expected.m22, actual.m22, expected.m22 * 0.01f * percentageError);
+		assertEquals(expected.m20, actual.m20, (float)Math.abs(expected.m20) * 0.01f * percentageError);
+		assertEquals(expected.m21, actual.m21, (float)Math.abs(expected.m21) * 0.01f * percentageError);
+		assertEquals(expected.m22, actual.m22, (float)Math.abs(expected.m22) * 0.01f * percentageError);
 		
 	}
 	

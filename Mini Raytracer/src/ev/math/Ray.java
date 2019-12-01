@@ -11,4 +11,8 @@ public class Ray {
 		this.dir = dir;
 	}
 	
+	public Vec3 insert(float t) {
+		return ori.add(dir.mul(t));
+	}
+	
 }
