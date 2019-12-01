@@ -4,12 +4,16 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
+import javax.swing.SwingWorker;
+import javax.swing.UIManager;
+import javax.swing.SwingUtilities;
 
 import ev.graphics.Camera;
 import ev.graphics.Raytracer;
@@ -30,9 +34,13 @@ import static javax.swing.SpringLayout.EAST;
  */
 public class GUI {
 	
+
+	
 	private static JFrame frame;
 	
 	public static void main(String[] args) throws Throwable {
+		
+		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		
 		frame = new JFrame("Render");
 		
@@ -86,7 +94,7 @@ class ImagePanel extends JPanel {
 	 * @param img the BufferedImage to display
 	 */
 	public ImagePanel(BufferedImage img) {
-		set(img);
+		display(img);
 	}
 	
 	/**
@@ -132,7 +140,7 @@ class ImagePanel extends JPanel {
 	 * @param img the BufferedImage to display. If null the panel won't display anything.
 	 * @return void
 	 */
-	public void set(BufferedImage img) {
+	public void display(BufferedImage img) {
 		this.img = img;
 		repaint();
 	}
@@ -168,8 +176,36 @@ class RenderPanel extends JPanel {
 		Renderer renderer = new Raytracer();
 		
 		renderButton.addActionListener(e -> {
-			outputPanel.set(renderer.render(GUI.getScene(), GUI.getCamera()));
+			(new RenderingWorker(outputPanel, renderer)).execute();
 		});
+		
+	}
+	
+	class RenderingWorker extends SwingWorker<BufferedImage, Void> {
+		
+		private ImagePanel target;
+		private Renderer renderer;
+		
+		/**
+		 * @param target the ImagePanel to display the image in when finished
+		 * @param renderer the Renderer to use
+		 */
+		public RenderingWorker(ImagePanel target, Renderer renderer) {
+			this.target = target;
+			this.renderer = renderer;
+		}
+		
+		@Override
+		protected BufferedImage doInBackground() {
+			return renderer.render(GUI.getScene(), GUI.getCamera());
+		}
+		
+		@Override
+		protected void done() {
+			try {
+				target.display(get());
+			} catch (InterruptedException | ExecutionException e) {} // shouldn't happen as doInBackground doesn't throw anything
+		}
 		
 	}
 	
