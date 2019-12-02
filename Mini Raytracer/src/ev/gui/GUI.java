@@ -19,9 +19,7 @@ import ev.math.Vec3;
  * The GUI class is responsible for handling all GUI activity, including handling of input.
  */
 public class GUI {
-	
 
-	
 	private static JFrame frame;
 	
 	public static void main(String[] args) throws Throwable {
@@ -77,6 +75,10 @@ public class GUI {
 	public static Camera getCamera() {
 		// test camera
 		return new Camera(new Vec3(0, 0, -10), 0, 0, 0, 20, 20, (float)PI * 0.5f, 1);
+	}
+	
+	public static JFrame getFrame() {
+		return frame;
 	}
 	
 }
