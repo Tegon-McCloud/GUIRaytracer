@@ -70,11 +70,19 @@ public class Raytracer implements Renderer {
 		Vec3 normal = intersection.getShape().normal(hitPos);
 		Vec2 texCoord = intersection.getShape().texCoord( hitPos);
 		Vec3 diffuseCol = intersection.getShape().getDiffuse().get(texCoord);
+		Vec2 specular = intersection.getShape().getSpecular().get(texCoord);
 		Vec3 color = diffuseCol.mul(0.2f);
+		
+		// diffuse
 		for(DistantLight l : scene.lights) {
 			float LdotN = l.getDir().mul(-1).dot(normal);
 			LdotN = LdotN < 0 ? 0 : LdotN;
 			color = color.add(diffuseCol.mul(LdotN).mul(l.getCol().mul(l.getIntensity())));
+		}
+		
+		// specular
+		for(DistantLight l : scene.lights) {
+			color.add(l.getCol().mul((float) Math.pow(l.getDir().reflect(normal).dot(intersection.getRay().dir.mul(-1)), specular.y)*specular.x));
 		}
 		
 		return color;

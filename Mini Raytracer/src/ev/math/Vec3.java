@@ -33,6 +33,10 @@ public class Vec3 {
 		return new Vec3(x - v.x, y - v.y, z - v.z);
 	}
 	
+	public Vec3 reflect(Vec3 normal) {
+		return normal.mul(-2*this.dot(normal)).add(this);
+	}
+	
 	public Vec3 mul(float f) {
 		return new Vec3(x*f, y*f, z*f);
 	}
