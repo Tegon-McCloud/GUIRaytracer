@@ -1,10 +1,14 @@
 package ev.graphics;
 
+import static ev.math.MathUtil.*;
+
 import java.awt.image.BufferedImage;
 
 import ev.math.Ray;
 import ev.math.Vec2;
 import ev.math.Vec3;
+
+
 
 /**
  * Raytracer is the most vanilla implementation of the IRenderer interface.
@@ -41,7 +45,12 @@ public class Raytracer implements Renderer {
 		return img;
 	}
 	
-
+	/**
+	 * Beware 
+	 * 
+	 * @param r
+	 * @return
+	 */
 	private Intersection cast(Ray r) {
 		
 		Intersection closest = new Intersection(r, null, Float.POSITIVE_INFINITY); // intersect with background (null) at infinity
@@ -73,6 +82,8 @@ public class Raytracer implements Renderer {
 			return scene.background;
 		}
 		
+		// Phong shading:
+		
 		Vec3 hitPos = intersection.getRay().insert(intersection.getDist());		// the point of intersection
 		Vec3 normal = intersection.getShape().normal(hitPos);					// the shapes normal at the intersection point
 		Vec2 texCoord = intersection.getShape().texCoord( hitPos);				// the texture coordinates at the intersection point
@@ -80,20 +91,20 @@ public class Raytracer implements Renderer {
 		Vec2 specular = intersection.getShape().getSpecular().get(texCoord);	// the specular intensity and glossiness at those texture coordinates
 		
 		// ambient light component
-		Vec3 color = diffuseCol.mul(0.2f);
+		Vec3 color = diffuseCol.mul(0.2f);										// ambient is set to 0.2 white light
 		
 		// diffuse light component
 		for(DistantLight l : scene.lights) {
 			float LdotN = l.getDir().mul(-1).dot(normal);
-			if(LdotN < 0) continue;
+			if(LdotN < 0) continue; 
 			color = color.add(diffuseCol.mul(LdotN).mul(l.getCol().mul(l.getIntensity())));
 		}
 		
-		// specular light component
+		// specular light component 
 		for(DistantLight l : scene.lights) {
 			float RdotV = l.getDir().reflect(normal).dot(intersection.getRay().dir.mul(-1));
 			if(RdotV < 0) continue; 
-			color = color.add(l.getCol().mul((float) Math.pow(RdotV, specular.y)*specular.x));
+			color = color.add(l.getCol().mul(pow(RdotV, specular.y)*specular.x));
 		}
 		
 		return color;

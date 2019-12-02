@@ -34,7 +34,7 @@ public class Camera {
 		resize(width, height);
 		setFov(fov);
 		setYawPitchRoll(yaw, pitch, roll);
-		
+		this.maxDepth = maxDepth;
 	}
 
 	/**
