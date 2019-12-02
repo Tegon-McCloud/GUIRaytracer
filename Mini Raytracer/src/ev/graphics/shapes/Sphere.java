@@ -44,19 +44,14 @@ public class Sphere extends Shape {
 		}
 		
 		// de 2 intersections
-		float intersection1 = (-b + (float)Math.sqrt(diskriminantInEnglish))/(2*a);
-		float intersection2 = (-b - (float)Math.sqrt(diskriminantInEnglish))/(2*a);
+		float t1 = (-b + (float)Math.sqrt(diskriminantInEnglish))/(2*a);
+		float t2 = (-b - (float)Math.sqrt(diskriminantInEnglish))/(2*a);
 		
 		// logic to find out which intersection to return
-		if (intersection1 < 0 && intersection2 < 0) {
-			if(intersection1 > intersection2 && intersection1 > 0 || (intersection1 < intersection2 && intersection2 < 0)) {
-				return intersection1; //tror jeg
-			} else {
-				return intersection2; //tror jeg, men det kan være man skal checke noget mere
-			}
-		} else {
-			return Float.POSITIVE_INFINITY;
+		if(t1 > 0 || t2 > 0) {
+			return t1 < t2 && t1 > 0 ? t1 : t2;
 		}
+		return Float.POSITIVE_INFINITY;
 	}
 	
 	@Override

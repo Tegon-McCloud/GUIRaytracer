@@ -84,7 +84,7 @@ public class GUI {
 	
 	public static Camera getCamera() {
 		// test camera
-		return new Camera(new Vec3(0, 0, -1), 0, 0, 0, 400, 400, (float)PI * 0.5f, 1);
+		return new Camera(new Vec3(0, 0, -10), 0, 0, 0, 400, 400, (float)PI * 0.5f, 1);
 	}
 	
 }
