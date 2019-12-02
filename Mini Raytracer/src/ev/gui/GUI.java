@@ -19,6 +19,7 @@ import ev.graphics.Camera;
 import ev.graphics.Raytracer;
 import ev.graphics.Renderer;
 import ev.graphics.Scene;
+import ev.graphics.shapes.Sphere;
 import ev.graphics.textures.Checkerboard;
 import ev.math.Vec2;
 import ev.math.Vec3;
@@ -76,12 +77,14 @@ public class GUI {
 	
 	public static Scene getScene() {
 		// test scene
-		return new Scene(new Vec3(0.5f, 0.0f, 0.0f));
+		Scene s = new Scene(new Vec3(0.5f, 0.0f, 0.0f));
+		s.shapes.add(new Sphere(new Vec3(0,0,0), 5));
+		return s;
 	}
 	
 	public static Camera getCamera() {
 		// test camera
-		return new Camera(new Vec3(0, 1, -1), -(float)PI * 0.25f, 0, 0, 400, 400, (float)PI * 0.5f, 1);
+		return new Camera(new Vec3(0, 0, -1), 0, 0, 0, 400, 400, (float)PI * 0.5f, 1);
 	}
 	
 }

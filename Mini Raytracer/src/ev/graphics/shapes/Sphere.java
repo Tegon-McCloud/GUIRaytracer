@@ -13,6 +13,18 @@ public class Sphere extends Shape {
 	public Vec3 pos;
 	public float radius;
 	
+	
+	
+	/**
+	 * @param pos
+	 * @param radius
+	 */
+	public Sphere(Vec3 pos, float radius) {
+		super();
+		this.pos = pos;
+		this.radius = radius;
+	}
+
 	@Override
 	public float intersect(Ray r) {
 		// TODO fix comments and make them the same language
@@ -28,7 +40,7 @@ public class Sphere extends Shape {
 		float diskriminantInEnglish = b*b - 4*a*c;
 		
 		if (diskriminantInEnglish <= 0) {
-			// do smt
+			return Float.POSITIVE_INFINITY;
 		}
 		
 		// de 2 intersections
@@ -37,26 +49,28 @@ public class Sphere extends Shape {
 		
 		// logic to find out which intersection to return
 		if (intersection1 < 0 && intersection2 < 0) {
-			if(intersection1 > intersection2 && intersection1 > 0) {
+			if(intersection1 > intersection2 && intersection1 > 0 || (intersection1 < intersection2 && intersection2 < 0)) {
 				return intersection1; //tror jeg
 			} else {
 				return intersection2; //tror jeg, men det kan være man skal checke noget mere
 			}
 		} else {
-			// do smt
+			return Float.POSITIVE_INFINITY;
 		}
-		
-		return 0;
 	}
 	
 	@Override
 	public Vec2 texCoord(Vec3 surfPos) {
-		return null;
+		Vec2 uv = new Vec2();
+		Vec3 normal = normal(surfPos);
+		uv.x = (float) (Math.atan2(normal.x, normal.z) / (2*Math.PI) + 0.5);
+		uv.y = normal.y * 0.5f + 0.5f;
+		return uv;
 	}
 
 	@Override
 	public Vec3 normal(Vec3 surfPos) {
-		return null;
+		return surfPos.sub(pos).normalized();
 	}
 	
 }
