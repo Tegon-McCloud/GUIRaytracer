@@ -13,9 +13,11 @@ public class Scene {
 	
 	public Vec3 background;
 	public List<Shape> shapes;
+	public List<DistantLight> lights;
 	
 	public Scene(Vec3 background) {
 		shapes = new ArrayList<Shape>();
+		lights = new ArrayList<DistantLight>();
 		this.background = background;
 	}
 	

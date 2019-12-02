@@ -3,6 +3,7 @@ package ev.graphics;
 import java.awt.image.BufferedImage;
 
 import ev.math.Ray;
+import ev.math.Vec2;
 import ev.math.Vec3;
 
 /**
@@ -65,7 +66,18 @@ public class Raytracer implements Renderer {
 			return scene.background;
 		}
 		
-		return intersection.getShape().getDiffuse().get( intersection.getShape().texCoord( intersection.getRay().insert(intersection.getDist()) ) );
+		Vec3 hitPos = intersection.getRay().insert(intersection.getDist());
+		Vec3 normal = intersection.getShape().normal(hitPos);
+		Vec2 texCoord = intersection.getShape().texCoord( hitPos);
+		Vec3 diffuseCol = intersection.getShape().getDiffuse().get(texCoord);
+		Vec3 color = diffuseCol.mul(0.2f);
+		for(DistantLight l : scene.lights) {
+			float LdotN = l.getDir().mul(-1).dot(normal);
+			LdotN = LdotN < 0 ? 0 : LdotN;
+			color = color.add(diffuseCol.mul(LdotN).mul(l.getCol().mul(l.getIntensity())));
+		}
+		
+		return color;
 		
 	}
 

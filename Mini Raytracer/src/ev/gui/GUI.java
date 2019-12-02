@@ -16,6 +16,7 @@ import javax.swing.UIManager;
 import javax.swing.SwingUtilities;
 
 import ev.graphics.Camera;
+import ev.graphics.DistantLight;
 import ev.graphics.Raytracer;
 import ev.graphics.Renderer;
 import ev.graphics.Scene;
@@ -78,13 +79,15 @@ public class GUI {
 	public static Scene getScene() {
 		// test scene
 		Scene s = new Scene(new Vec3(0.5f, 0.0f, 0.0f));
+		s.lights.add(new DistantLight(new Vec3(0, 1, 0), new Vec3(1,1,1), 1));
+		s.lights.add(new DistantLight(new Vec3(-1, 0, 0), new Vec3(1,1,1), 1));
 		s.shapes.add(new Sphere(new Vec3(0,0,0), 5));
 		return s;
 	}
 	
 	public static Camera getCamera() {
 		// test camera
-		return new Camera(new Vec3(0, 0, -10), 0, 0, 0, 400, 400, (float)PI * 0.5f, 1);
+		return new Camera(new Vec3(0, 0, -10), 0, 0, (float) PI*0.25f, 400, 400, (float)PI * 0.5f, 1);
 	}
 	
 }
