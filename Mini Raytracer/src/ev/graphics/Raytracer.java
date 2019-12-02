@@ -27,7 +27,7 @@ public class Raytracer implements Renderer {
 		for(int i = 0; i < c.getWidth(); i++) {
 			for(int j = 0; j < c.getHeight(); j++) {
 				
-				Vec3 col = trace(c.generateRay(i, j), 0);
+				Vec3 col = trace(c.generateRay(i, j), 0).saturated();
 				
 				int argb = 0;
 				argb |= ((int) (col.x * 255)) << 16;
@@ -59,6 +59,13 @@ public class Raytracer implements Renderer {
 		return closest;
 	}
 	
+	/**
+	 * 
+	 * 
+	 * @param r
+	 * @param depth
+	 * @return
+	 */
 	private Vec3 trace(Ray r, int depth) {
 		
 		Intersection intersection = cast(r); // find whatever r intersects with first.
@@ -66,23 +73,27 @@ public class Raytracer implements Renderer {
 			return scene.background;
 		}
 		
-		Vec3 hitPos = intersection.getRay().insert(intersection.getDist());
-		Vec3 normal = intersection.getShape().normal(hitPos);
-		Vec2 texCoord = intersection.getShape().texCoord( hitPos);
-		Vec3 diffuseCol = intersection.getShape().getDiffuse().get(texCoord);
-		Vec2 specular = intersection.getShape().getSpecular().get(texCoord);
+		Vec3 hitPos = intersection.getRay().insert(intersection.getDist());		// the point of intersection
+		Vec3 normal = intersection.getShape().normal(hitPos);					// the shapes normal at the intersection point
+		Vec2 texCoord = intersection.getShape().texCoord( hitPos);				// the texture coordinates at the intersection point
+		Vec3 diffuseCol = intersection.getShape().getDiffuse().get(texCoord);	// the diffuse RGB values at those texture coordinates
+		Vec2 specular = intersection.getShape().getSpecular().get(texCoord);	// the specular intensity and glossiness at those texture coordinates
+		
+		// ambient light component
 		Vec3 color = diffuseCol.mul(0.2f);
 		
-		// diffuse
+		// diffuse light component
 		for(DistantLight l : scene.lights) {
 			float LdotN = l.getDir().mul(-1).dot(normal);
-			LdotN = LdotN < 0 ? 0 : LdotN;
+			if(LdotN < 0) continue;
 			color = color.add(diffuseCol.mul(LdotN).mul(l.getCol().mul(l.getIntensity())));
 		}
 		
-		// specular
+		// specular light component
 		for(DistantLight l : scene.lights) {
-			color.add(l.getCol().mul((float) Math.pow(l.getDir().reflect(normal).dot(intersection.getRay().dir.mul(-1)), specular.y)*specular.x));
+			float RdotV = l.getDir().reflect(normal).dot(intersection.getRay().dir.mul(-1));
+			if(RdotV < 0) continue; 
+			color = color.add(l.getCol().mul((float) Math.pow(RdotV, specular.y)*specular.x));
 		}
 		
 		return color;

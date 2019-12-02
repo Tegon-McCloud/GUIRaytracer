@@ -48,7 +48,14 @@ class Vec3Test {
 		assertVecEquals(EXPECTED, ACTUAL, 0.1f);
 	}
 	
-	
+	@Test
+	void saturatedTest() {
+		
+		final Vec3 EXPECTED = new Vec3(0.4f, 0f, 1f);
+		final Vec3 ACTUAL = new Vec3(0.4f, -0.3f, 7f).saturated();
+		
+		assertVecEquals(EXPECTED, ACTUAL, 0.1f);
+	}
 	
 	private static void assertVecEquals(Vec3 expected, Vec3 actual, float percentageError) {
 		assertEquals(expected.x, actual.x, (float)Math.abs(expected.x) * 0.01f * percentageError);
