@@ -28,7 +28,10 @@ public class Plane extends Shape {
 			return;
 		}
 		
+		Vec3 normPerp1 = new Vec3(normal.x, normal.y, (- (normal.x * normal.x) - (normal.y * normal.y)) / normal.z).normalized();
+		Vec3 normPerp2 = normPerp1.cross(normal);
 		
+		toXY = Matrix33.getMatrix(normPerp1, normPerp2, normal);
 		
 	}
 
