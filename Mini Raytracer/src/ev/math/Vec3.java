@@ -66,6 +66,10 @@ public class Vec3 {
 		return MathUtil.saturate(this);
 	}
 	
+	public Vec3 negated() {
+		return new Vec3(-x, -y, -z);
+	}
+	
 	public float length() {
 		return (float) Math.sqrt(x*x + y*y + z*z);
 	}

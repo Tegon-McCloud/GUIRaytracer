@@ -2,6 +2,8 @@ package ev.gui;
 
 import javax.swing.JTabbedPane;
 
+import ev.graphics.Camera;
+
 @SuppressWarnings("serial")
 public class ControlPanel extends JTabbedPane {
 	
@@ -17,8 +19,8 @@ public class ControlPanel extends JTabbedPane {
 		
 	}
 	
-	public CameraPanel getCameraPanel() {
-		return cameraPanel;
+	public Camera getCameraCopy() {
+		return new Camera(cameraPanel.getCamera());
 	}
 	
 }

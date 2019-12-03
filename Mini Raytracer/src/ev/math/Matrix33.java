@@ -109,5 +109,23 @@ public class Matrix33 {
 				);
 	}
 	
+	public static Matrix33 getIdentityMatrix() {
+		return new Matrix33(
+				1, 0, 0,
+				0, 1, 0,
+				0, 0, 1
+				);
+	}
+	
+	public static Matrix33 getMatrix(Vec3 i, Vec3 j, Vec3 k) {
+		return new Matrix33(
+				i.x, j.x, k.x,
+				i.y, j.y, k.y,
+				i.z, j.z, k.z
+				);
+		
+		
+	}
+	
 }
 

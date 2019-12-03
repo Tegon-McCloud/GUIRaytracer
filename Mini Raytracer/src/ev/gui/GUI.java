@@ -4,6 +4,7 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import ev.graphics.Camera;
@@ -27,41 +28,27 @@ public class GUI {
 		
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		
-		frame = new JFrame("Render");
-		
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		// for testing
-//		ImagePanel imgp = new ImagePanel();
-		
-//		Scene s = new Scene(new Vec3(0f, 0f, 0.5f));
-//		Camera c = new Camera(new Vec3(), 0, 0, 0, 400, 400, (float)Math.PI/2, 4);
-//		
-//		Raytracer r = new Raytracer();
-//		
-//		imgp.set(r.render(s, c));
-//		
-//		imgp.setPreferredSize(new Dimension(400, 400));
-//		imgp.setBackground(new Color(0, 0, 0));
-//		frame.setContentPane(imgp);
-		
-		
-		rp = new RenderPanel();
-		rp.setMinimumSize(new Dimension(400, 400));
-		
-		cp = new ControlPanel();
-		
-		JSplitPane jsp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, cp, rp);
-		jsp.setPreferredSize(new Dimension(800, 600));
-		jsp.setDividerLocation(400);
-		
-		frame.setContentPane(jsp);
-		
-		// !for testing
-		
-		frame.pack();
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		frame.setVisible(true);
+		SwingUtilities.invokeLater(() -> {
+			frame = new JFrame("Render");
+			
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+			rp = new RenderPanel();
+			rp.setMinimumSize(new Dimension(400, 400));
+			
+			cp = new ControlPanel();
+			
+			JSplitPane jsp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, cp, rp);
+			jsp.setPreferredSize(new Dimension(800, 600));
+			jsp.setDividerLocation(400);
+			
+			frame.setContentPane(jsp);
+			
+			frame.pack();
+			frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+			frame.setVisible(true);
+		});
+
 		
 	}
 	
@@ -74,7 +61,7 @@ public class GUI {
 	}
 	
 	public static Camera getCamera() {
-		return cp.getCameraPanel().getCamera(); 
+		return cp.getCameraCopy(); 
 	}
 	
 	public static JFrame getFrame() {

@@ -7,6 +7,8 @@ public final class MathUtil {
 	
 	public static float PI = (float) Math.PI;
 	public static float E = (float) Math.E;
+	public static float EPSILON = (float) 0.0001f;
+	
 	
 	public static float saturate(float x) {
 		return x > 0 ? (x < 1 ? x : 1) : 0;
@@ -14,6 +16,10 @@ public final class MathUtil {
 	
 	public static Vec3 saturate(Vec3 v) {
 		return new Vec3(saturate(v.x), saturate(v.y), saturate(v.z));
+	}
+	
+	public static float abs(float x) {
+		return (float)Math.abs(x);
 	}
 	
 	public static float sin(float x) {

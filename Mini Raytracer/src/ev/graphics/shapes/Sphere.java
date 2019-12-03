@@ -65,7 +65,7 @@ public class Sphere extends Shape {
 
 	@Override
 	public Vec3 normal(Vec3 surfPos) {
-		return surfPos.sub(pos).normalized();
+		return surfPos.sub(pos).mul(1 / radius);
 	}
 	
 }

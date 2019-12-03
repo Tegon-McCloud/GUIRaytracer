@@ -80,7 +80,7 @@ public class CameraPanel extends JPanel {
 			dialog.setResizable(false);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			
-			dialog.setContentPane(new CameraEditPanel(this, dialog, state));
+			dialog.setContentPane(new CameraEditPanel(this, dialog));
 			dialog.pack();
 			
 
@@ -99,7 +99,7 @@ public class CameraPanel extends JPanel {
 	}
 	
 	public Camera getCamera() {
-		return new Camera(state);
+		return state;
 	}
 	
 }
@@ -107,7 +107,9 @@ public class CameraPanel extends JPanel {
 @SuppressWarnings("serial")
 class CameraEditPanel extends JPanel {
 	
-	public CameraEditPanel(CameraPanel target, Dialog container, Camera cam) {
+	public CameraEditPanel(CameraPanel target, Dialog container) {
+		
+		Camera cam = target.getCamera();
 		
 		setPreferredSize(new Dimension(180, 360));
 		
@@ -148,6 +150,7 @@ class CameraEditPanel extends JPanel {
 			int width, height, maxDepth;
 			
 			try {
+				
 				x 			= Float.parseFloat(xField.getText());
 				y 			= Float.parseFloat(yField.getText());
 				z 			= Float.parseFloat(zField.getText());

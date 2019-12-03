@@ -102,7 +102,7 @@ public class Raytracer implements Renderer {
 		
 		// specular light component 
 		for(DistantLight l : scene.lights) {
-			float RdotV = l.getDir().reflect(normal).dot(intersection.getRay().dir.mul(-1));
+			float RdotV = l.getDir().reflect(normal).dot(intersection.getRay().dir.negated());
 			if(RdotV < 0) continue; 
 			color = color.add(l.getCol().mul(pow(RdotV, specular.y)*specular.x));
 		}
