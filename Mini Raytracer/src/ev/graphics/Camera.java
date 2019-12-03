@@ -37,6 +37,10 @@ public class Camera {
 		this.maxDepth = maxDepth;
 	}
 
+	public Camera(Camera orig) {
+		this(orig.pos, orig.yaw, orig.pitch, orig.roll, orig.width, orig.height, orig.fov, orig.maxDepth);
+	}
+	
 	/**
 	 * Sets the cameras position.
 	 * 

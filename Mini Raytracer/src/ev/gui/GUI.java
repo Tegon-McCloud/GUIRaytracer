@@ -1,7 +1,5 @@
 package ev.gui;
 
-import static java.lang.Math.PI;
-
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
@@ -21,6 +19,9 @@ import ev.math.Vec3;
 public class GUI {
 
 	private static JFrame frame;
+	
+	private static ControlPanel cp;
+	private static RenderPanel rp;
 	
 	public static void main(String[] args) throws Throwable {
 		
@@ -45,10 +46,10 @@ public class GUI {
 //		frame.setContentPane(imgp);
 		
 		
-		RenderPanel rp = new RenderPanel();
+		rp = new RenderPanel();
 		rp.setMinimumSize(new Dimension(400, 400));
 		
-		ControlPanel cp = new ControlPanel();
+		cp = new ControlPanel();
 		
 		JSplitPane jsp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, cp, rp);
 		jsp.setPreferredSize(new Dimension(800, 600));
@@ -67,14 +68,13 @@ public class GUI {
 	public static Scene getScene() {
 		// test scene
 		Scene s = new Scene(new Vec3(0.5f, 0.0f, 0.0f));
-		s.lights.add(new DistantLight(new Vec3(0, 2, 1), new Vec3(1,1,1), 1));
+		s.lights.add(new DistantLight(new Vec3(1, 2, 1), new Vec3(1,1,1), 1));
 		s.shapes.add(new Sphere(new Vec3(0,0,0), 5));
 		return s;
 	}
 	
 	public static Camera getCamera() {
-		// test camera
-		return new Camera(new Vec3(0, 0, -10), 0, 0, 0, 20, 20, (float)PI * 0.5f, 1);
+		return cp.getCameraPanel().getCamera(); 
 	}
 	
 	public static JFrame getFrame() {

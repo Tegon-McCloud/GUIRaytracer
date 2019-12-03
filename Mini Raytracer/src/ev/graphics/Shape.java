@@ -13,7 +13,7 @@ import ev.math.Vec3;
 public abstract class Shape {
 	
 	public static final Texture2D<Vec3> DEFAULT_DIFFUSE = new Checkerboard(new Vec3(0, 0, 0.5f), new Vec3(0, 0.5f, 0), 8);
-	public static final Texture2D<Vec2> DEFAULT_SPECULAR = new Constant<Vec2>(new Vec2(0.6f, 24.0f)); // 
+	public static final Texture2D<Vec2> DEFAULT_SPECULAR = new Constant<Vec2>(new Vec2(0.8f, 2048.0f)); // 
 	
 	private Texture2D<Vec3> diffuse;
 	private Texture2D<Vec2> specular;

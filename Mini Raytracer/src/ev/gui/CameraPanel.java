@@ -98,6 +98,10 @@ public class CameraPanel extends JPanel {
 		
 	}
 	
+	public Camera getCamera() {
+		return new Camera(state);
+	}
+	
 }
 
 @SuppressWarnings("serial")
@@ -119,7 +123,7 @@ class CameraEditPanel extends JPanel {
 		JTextField widthField	=	addLabeledField("width:", cam.getWidth() + "");
 		JTextField heightField	=	addLabeledField("height:", cam.getHeight() + "");
 		JTextField fovField		=	addLabeledField("fov:", cam.getFov() * 180f/PI + "");
-		JTextField bounceField	=	addLabeledField("bounce:", cam.getMaxDepth() + "");
+		JTextField bounceField	=	addLabeledField("max bounces:", cam.getMaxDepth() + "");
 		
 		JPanel buttonPanel = new JPanel();
 		SpringLayout panelLayout = new SpringLayout();

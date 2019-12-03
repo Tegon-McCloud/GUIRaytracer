@@ -17,4 +17,8 @@ public class ControlPanel extends JTabbedPane {
 		
 	}
 	
+	public CameraPanel getCameraPanel() {
+		return cameraPanel;
+	}
+	
 }
