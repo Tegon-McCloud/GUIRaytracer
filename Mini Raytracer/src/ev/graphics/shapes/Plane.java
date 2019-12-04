@@ -28,7 +28,6 @@ public class Plane extends Shape {
 			return;
 		}
 		
-		
 		Vec3 normPerp1 = normal.cross(new Vec3(0, 0, 1));
 		Vec3 normPerp2 = normPerp1.cross(normal);
 		
@@ -40,7 +39,7 @@ public class Plane extends Shape {
 		Vec3 oriToPos = r.ori.sub(pos);
 		
 		float dirDotN = r.dir.dot(normal);
-		if(dirDotN < EPSILON) return Float.POSITIVE_INFINITY;
+		if(-dirDotN < EPSILON) return Float.POSITIVE_INFINITY;
 		
 		float t = oriToPos.dot(normal) / dirDotN;
 		return t > 0 ? t : Float.POSITIVE_INFINITY;
@@ -52,7 +51,7 @@ public class Plane extends Shape {
 		Vec3 diff = surfPos.sub(pos);
 		diff = diff.mul(toXY);
 		
-		return new Vec2(diff.x, diff.y);
+		return new Vec2(diff.x - floor(diff.x), diff.y - floor(diff.y));
 	}
 
 	@Override

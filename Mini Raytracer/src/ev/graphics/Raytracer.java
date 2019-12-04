@@ -97,7 +97,7 @@ public class Raytracer implements Renderer {
 		
 		// diffuse light component
 		for(DistantLight l : scene.lights) {
-			float LdotN = l.getDir().mul(-1).dot(normal);
+			float LdotN = l.getDir().negated().dot(normal);
 			if(LdotN < 0) continue; 
 			color = color.add(diffuseCol.mul(LdotN).mul(l.getCol().mul(l.getIntensity())));
 		}
