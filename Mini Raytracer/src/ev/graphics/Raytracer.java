@@ -95,15 +95,17 @@ public class Raytracer implements Renderer {
 		// ambient light component
 		Vec3 color = diffuseCol.mul(0.2f);										// ambient is set to 0.2 white light
 		
-		// diffuse light component
+
 		for(DistantLight l : scene.lights) {
+			// check if hitPos in shadow
+			if (cast(new Ray(hitPos.add(normal.mul(EPSILON)), l.getDir().negated())).getShape() != null) continue;
+			
+			// diffuse light component
 			float LdotN = l.getDir().negated().dot(normal);
 			if(LdotN < 0) continue; 
 			color = color.add(diffuseCol.mul(LdotN).mul(l.getCol().mul(l.getIntensity())));
-		}
-		
-		// specular light component 
-		for(DistantLight l : scene.lights) {
+			
+			// specular light component 
 			float RdotV = l.getDir().reflect(normal).dot(intersection.getRay().dir.negated());
 			if(RdotV < 0) continue; 
 			color = color.add(l.getCol().mul(pow(RdotV, specular.y)*specular.x));

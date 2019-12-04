@@ -1,5 +1,7 @@
 package ev.gui;
 
+import static ev.math.MathUtil.*;
+
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
@@ -63,7 +65,8 @@ public class GUI {
 	}
 	
 	public static Camera getCamera() {
-		return cp.getCameraCopy(); 
+		return new Camera(new Vec3(0, 0, -2), 0, 0, 0, 400, 400, PI/2, 4);
+		//return cp.getCameraCopy(); 
 	}
 	
 	public static JFrame getFrame() {

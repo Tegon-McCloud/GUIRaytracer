@@ -70,6 +70,16 @@ public final class MathUtil {
 		return b > a ? a : b;
 	}
 	
+	public static int max(int... is) {
+		int max = Integer.MIN_VALUE;
+		for(int i : is) if(max < i) max = i;
+		return max;
+	}
+	
+	public static int min(int a, int b) {
+		return a > b ? b : a;
+	}
+	
 	public static float floor(float x) {
 		return (float)Math.floor(x);
 	}
