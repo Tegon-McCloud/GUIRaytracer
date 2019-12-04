@@ -19,8 +19,8 @@ public class Plane extends Shape {
 	 * @param normal
 	 * @param pos
 	 */
-	public Plane(Vec3 normal, Vec3 pos) {
-		this.normal = normal;
+	public Plane(Vec3 pos, Vec3 normal) {
+		this.normal = normal.normalized();
 		this.pos = pos;
 		
 		if(abs(normal.x) < EPSILON && abs(normal.y) < EPSILON) { // plane is almost flat with xy-plane
@@ -28,33 +28,36 @@ public class Plane extends Shape {
 			return;
 		}
 		
-		Vec3 normPerp1 = new Vec3(normal.x, normal.y, (- (normal.x * normal.x) - (normal.y * normal.y)) / normal.z).normalized();
+		
+		Vec3 normPerp1 = normal.cross(new Vec3(0, 0, 1));
 		Vec3 normPerp2 = normPerp1.cross(normal);
 		
 		toXY = Matrix33.getMatrix(normPerp1, normPerp2, normal);
-		
 	}
 
 	@Override
 	public float intersect(Ray r) {
+		Vec3 oriToPos = r.ori.sub(pos);
 		
-		float normalDotDir = normal.dot(r.dir);
-		if(normalDotDir < EPSILON) return Float.POSITIVE_INFINITY;
-		return pos.sub(r.ori).dot(normal) / normalDotDir;
+		float dirDotN = r.dir.dot(normal);
+		if(dirDotN < EPSILON) return Float.POSITIVE_INFINITY;
+		
+		float t = oriToPos.dot(normal) / dirDotN;
+		return t > 0 ? t : Float.POSITIVE_INFINITY;
+		
 	}
 
 	@Override
 	public Vec2 texCoord(Vec3 surfPos) {
 		Vec3 diff = surfPos.sub(pos);
+		diff = diff.mul(toXY);
 		
-		
-		return null;
+		return new Vec2(diff.x, diff.y);
 	}
 
 	@Override
 	public Vec3 normal(Vec3 surfPos) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Vec3(normal);
 	}
 
 }

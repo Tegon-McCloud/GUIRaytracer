@@ -31,6 +31,8 @@ public class Raytracer implements Renderer {
 		for(int i = 0; i < c.getWidth(); i++) {
 			for(int j = 0; j < c.getHeight(); j++) {
 				
+				//System.out.printf("Ray: %d, %d\n", i, j);
+				
 				Vec3 col = trace(c.generateRay(i, j), 0).saturated();
 				
 				int argb = 0;
