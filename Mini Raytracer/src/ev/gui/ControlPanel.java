@@ -19,8 +19,8 @@ public class ControlPanel extends JTabbedPane {
 		
 	}
 	
-	public Camera getCameraCopy() {
-		return new Camera(cameraPanel.getCamera());
+	public Camera getCamera() {
+		return cameraPanel.getCamera();
 	}
 	
 }

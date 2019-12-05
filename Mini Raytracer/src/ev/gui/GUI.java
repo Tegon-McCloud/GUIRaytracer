@@ -65,8 +65,7 @@ public class GUI {
 	}
 	
 	public static Camera getCamera() {
-		return new Camera(new Vec3(0, 0, -2), 0, 0, 0, 400, 400, PI/2, 4);
-		//return cp.getCameraCopy(); 
+		return cp.getCamera(); 
 	}
 	
 	public static JFrame getFrame() {

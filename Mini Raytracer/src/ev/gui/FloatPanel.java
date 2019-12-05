@@ -16,8 +16,7 @@ public class FloatPanel extends JPanel {
 		
 		((FlowLayout)getLayout()).setAlignment(FlowLayout.RIGHT);
 		
-		JLabel label = new JLabel(name + ":", SwingConstants.RIGHT);
-		add(label);
+		add(new JLabel(name + ":", SwingConstants.RIGHT));
 		
 		field = new JTextField(value + "");
 		field.setPreferredSize(new Dimension(80, 20));
