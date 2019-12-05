@@ -23,16 +23,16 @@ import ev.math.Vec3;
 @SuppressWarnings("serial")
 public class Vec3Panel extends JPanel {
 	
-	private FloatPanel fx, fy, fz;
+	private LabeledField fx, fy, fz;
 	
 	public Vec3Panel(String xName, String yName, String zName, float x, float y, float z) {
 		
 		GridLayout layout = new GridLayout(3, 1);
 		setLayout(layout);
 		
-		fx = new FloatPanel(xName, x);
-		fy = new FloatPanel(yName, y);
-		fz = new FloatPanel(zName, z);
+		fx = new LabeledField(xName, x);
+		fy = new LabeledField(yName, y);
+		fz = new LabeledField(zName, z);
 		
 		add(fx);
 		add(fy);
@@ -53,7 +53,7 @@ public class Vec3Panel extends JPanel {
 	}
 		
 	public Vec3 getVec() throws NumberFormatException {
-		return new Vec3(fx.getValue(), fy.getValue(), fz.getValue());
+		return new Vec3(fx.getFloat(), fy.getFloat(), fz.getFloat());
 	}
 	
 }

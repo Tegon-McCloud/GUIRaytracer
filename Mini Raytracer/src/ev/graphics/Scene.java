@@ -1,7 +1,7 @@
 package ev.graphics;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 import ev.math.Vec3;
 
@@ -12,12 +12,12 @@ import ev.math.Vec3;
 public class Scene {
 	
 	public Vec3 background;
-	public List<Shape> shapes;
-	public List<DistantLight> lights;
+	public HashMap<String, Shape> shapes;
+	public HashMap<String, DistantLight> lights;
 	
 	public Scene(Vec3 background) {
-		shapes = new ArrayList<Shape>();
-		lights = new ArrayList<DistantLight>();
+		shapes = new HashMap<String, Shape>();
+		lights = new HashMap<String, DistantLight>();
 		this.background = background;
 	}
 	

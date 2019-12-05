@@ -58,9 +58,9 @@ public class GUI {
 	public static Scene getScene() {
 		// test scene
 		Scene s = new Scene(new Vec3(0.5f, 0.0f, 0.0f));
-		s.lights.add(new DistantLight(new Vec3(1, 2, 1), new Vec3(1,1,1), 1));
-		s.shapes.add(new Sphere(new Vec3(0, 0, 5), 1));
-		s.shapes.add(new Plane(new Vec3(0, -1, 0), new Vec3(0, -1, 0)));
+		s.lights.put("a light", new DistantLight(new Vec3(1, 2, 1), new Vec3(1,1,1), 1));
+		s.shapes.put("a sphere", new Sphere(new Vec3(0, 0, 5), 1));
+		s.shapes.put("a plane", new Plane(new Vec3(0, -1, 0), new Vec3(0, -1, 0)));
 		return s;
 	}
 	

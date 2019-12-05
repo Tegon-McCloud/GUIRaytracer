@@ -69,9 +69,8 @@ public class Camera {
 	public void setFov(float fov) {
 		this.fov = fov;
 		
-		float hfov = fov * width/(float)height;
-		tanHalfHFov = (float)Math.tan(hfov/2);
 		tanHalfVFov = (float)Math.tan(fov/2);
+		tanHalfHFov = tanHalfVFov * width/(float)height;
 	}
 	
 	/**

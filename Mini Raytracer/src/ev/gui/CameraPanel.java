@@ -1,28 +1,17 @@
 package ev.gui;
 
 import static ev.math.MathUtil.PI;
-import static javax.swing.SpringLayout.EAST;
 import static javax.swing.SpringLayout.NORTH;
 import static javax.swing.SpringLayout.SOUTH;
-import static javax.swing.SpringLayout.VERTICAL_CENTER;
 import static javax.swing.SpringLayout.WEST;
 
-import java.awt.Component;
-import java.awt.Dialog;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.util.Locale;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.SpringLayout;
-import javax.swing.border.Border;
 
 import ev.graphics.Camera;
 import ev.math.Vec3;
@@ -31,7 +20,7 @@ import ev.math.Vec3;
 public class CameraPanel extends JPanel {
 
 	Vec3Panel posPanel, dirPanel;
-	JTextField widthField, heightField, fovField, depthField;
+	LabeledField widthField, heightField, fovField, depthField;
 
 	public CameraPanel() {
 
@@ -62,27 +51,12 @@ public class CameraPanel extends JPanel {
 		JPanel sizePanel = new JPanel();
 		sizePanel.setBorder(BorderFactory.createTitledBorder("Resolution"));
 		sizePanel.setLayout(new GridLayout(2, 1));
-
-		JPanel widthPanel = new JPanel();
-		JPanel heightPanel = new JPanel();
-
-		((FlowLayout)widthPanel.getLayout()).setAlignment(FlowLayout.RIGHT);
-		((FlowLayout)heightPanel.getLayout()).setAlignment(FlowLayout.RIGHT);
 		
-		widthPanel.add(new JLabel("width:"));
-		heightPanel.add(new JLabel("height"));
-
-		widthField = new JTextField("1024");
-		heightField = new JTextField("1024");
-
-		widthField.setPreferredSize(new Dimension(80, 20));
-		heightField.setPreferredSize(new Dimension(80, 20));
+		widthField = new LabeledField("width", 1024);
+		heightField = new LabeledField("height", 1024);
 		
-		widthPanel.add(widthField);
-		heightPanel.add(heightField);
-		
-		sizePanel.add(widthPanel);
-		sizePanel.add(heightPanel);
+		sizePanel.add(widthField);
+		sizePanel.add(heightField);
 		
 		sizePanel.setPreferredSize(new Dimension(140, sizePanel.getPreferredSize().height));
 		
@@ -96,26 +70,11 @@ public class CameraPanel extends JPanel {
 		miscPanel.setBorder(BorderFactory.createTitledBorder("Misc."));
 		miscPanel.setLayout(new GridLayout(2, 1));
 		
-		JPanel fovPanel = new JPanel();
-		JPanel depthPanel = new JPanel();
+		fovField = new LabeledField("field of view", 90f);
+		depthField = new LabeledField("max. reflections", 4);
 		
-		((FlowLayout)fovPanel.getLayout()).setAlignment(FlowLayout.RIGHT);
-		((FlowLayout)depthPanel.getLayout()).setAlignment(FlowLayout.RIGHT);
-		
-		fovPanel.add(new JLabel("Field of View"));
-		depthPanel.add(new JLabel("Max. Reflections"));
-		
-		fovField = new JTextField("90");
-		depthField = new JTextField("4");
-		
-		fovField.setPreferredSize(new Dimension(80, 20));
-		depthField.setPreferredSize(new Dimension(80, 20));
-		
-		fovPanel.add(fovField);
-		depthPanel.add(depthField);
-		
-		miscPanel.add(fovPanel);
-		miscPanel.add(depthPanel);
+		miscPanel.add(fovField);
+		miscPanel.add(depthField);
 		
 		layout.putConstraint(NORTH, miscPanel, 5, SOUTH, sizePanel);
 		layout.putConstraint(WEST, miscPanel, 5, WEST, this);
@@ -129,13 +88,15 @@ public class CameraPanel extends JPanel {
 	public Camera getCamera() throws NumberFormatException {
 		try {
 			Vec3 dir = dirPanel.getVec();
+			
 			return new Camera(
 					posPanel.getVec(),
-					dir.z, dir.y, dir.x,
-					Integer.parseInt(widthField.getText()),
-					Integer.parseInt(heightField.getText()), 
-					Float.parseFloat(fovField.getText()),
-					Integer.parseInt(depthField.getText()));
+					dir.z * PI/180f, dir.y * PI/180f, dir.x * PI/180f,
+					widthField.getInt(),
+					heightField.getInt(), 
+					fovField.getFloat() * PI/180f,
+					depthField.getInt());
+			
 		} catch(NumberFormatException e) {
 			JOptionPane.showMessageDialog(
 					GUI.getFrame(),

@@ -57,7 +57,7 @@ public class Raytracer implements Renderer {
 		
 		Intersection closest = new Intersection(r, null, Float.POSITIVE_INFINITY); // intersect with background (null) at infinity
 
-		for(Shape s : scene.shapes) {
+		for(Shape s : scene.shapes.values()) {
 			
 			Intersection current = new Intersection(r, s);
 			
@@ -96,7 +96,7 @@ public class Raytracer implements Renderer {
 		Vec3 color = diffuseCol.mul(0.2f);										// ambient is set to 0.2 white light
 		
 
-		for(DistantLight l : scene.lights) {
+		for(DistantLight l : scene.lights.values()) {
 			// check if hitPos in shadow
 			if (cast(new Ray(hitPos.add(normal.mul(EPSILON)), l.getDir().negated())).getShape() != null) continue;
 			
