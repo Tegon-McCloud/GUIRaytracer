@@ -7,8 +7,6 @@ import static javax.swing.SpringLayout.WEST;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Insets;
-import java.awt.Label;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -19,10 +17,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.SpringLayout;
-import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
 import ev.graphics.DistantLight;
@@ -36,10 +32,14 @@ private DefaultTableModel tableModel;
 	
 	public LightPanel() {
 		
-		for(int i = 0; i < 30; i++) {
-			GUI.getControlPanel().getScene().lights.put("testLight" + i, new DistantLight(new Vec3(i, 1, 0), new Vec3(0.5f, 0.5f, 0.5f), 3));
-		}
-		
+		GUI.getControlPanel().getScene().lights = new HashMap<String, DistantLight>(){
+			@Override
+			public DistantLight put(String key, DistantLight value) {
+				DistantLight l = super.put(key, value);
+				rebuildTableModel();
+				return l;
+			}
+		};
 		
 		SpringLayout layout = new SpringLayout();
 		setLayout(layout);
@@ -77,12 +77,8 @@ private DefaultTableModel tableModel;
 			public void mouseClicked(MouseEvent e) {
 				if(e.getClickCount() == 1) {
 					String key = (String) tableModel.getValueAt(table.rowAtPoint(e.getPoint()), 0);
-					selectedPanel.select(GUI.getControlPanel().getScene().lights.get(key));
-					
-					selectedPanel.setBorder(BorderFactory.createTitledBorder("Selected: " + key));
+					selectedPanel.select(key);
 				}
-				
-				
 			}
 		});
 		
@@ -162,16 +158,23 @@ class SelectedPanel extends JPanel {
 		
 		saveButton.addActionListener(e -> {
 			
-			
+			GUI.getControlPanel().getScene().lights.put(name.getString(),
+					new DistantLight(
+							dir.getVec(),
+							new Vec3(red.getFloat(), green.getFloat(), blue.getFloat()),
+							intensity.getFloat()));
 			
 		});
 		
 		select(null);
 	}
 	
-	public void select(DistantLight l) {
+	public void select(String key) {
+		
+		DistantLight l = GUI.getControlPanel().getScene().lights.get(key);
 		
 		if(l != null) {
+			name.setString(key);
 			dir.setVec(l.getDir());
 			Vec3 col = l.getCol();
 			red.setString(col.x + "");
@@ -186,10 +189,6 @@ class SelectedPanel extends JPanel {
 			intensity.setString("");
 		}
 		
-	}
-	
-	public void addSaveListener(ActionListener l) {
-		saveButton.addActionListener(l);
 	}
 	
 }
