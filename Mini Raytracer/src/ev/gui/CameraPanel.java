@@ -30,7 +30,7 @@ public class CameraPanel extends JPanel {
 		// position panel
 		posPanel = new Vec3Panel();
 		posPanel.setBorder(BorderFactory.createTitledBorder("Position"));
-		posPanel.setPreferredSize(new Dimension(140, posPanel.getPreferredSize().height));
+		posPanel.setPreferredSize(new Dimension(150, posPanel.getPreferredSize().height));
 
 		layout.putConstraint(NORTH, posPanel, 5, NORTH, this);
 		layout.putConstraint(WEST, posPanel, 5, WEST, this);
@@ -40,7 +40,7 @@ public class CameraPanel extends JPanel {
 		// direction panel
 		dirPanel = new Vec3Panel("roll", "pitch", "yaw", 0, 0, 0);
 		dirPanel.setBorder(BorderFactory.createTitledBorder("Direction"));
-		dirPanel.setPreferredSize(new Dimension(140, dirPanel.getPreferredSize().height));
+		dirPanel.setPreferredSize(new Dimension(150, dirPanel.getPreferredSize().height));
 
 		layout.putConstraint(NORTH, dirPanel, 5, SOUTH, posPanel);
 		layout.putConstraint(WEST, dirPanel, 5, WEST, this);
@@ -58,7 +58,7 @@ public class CameraPanel extends JPanel {
 		sizePanel.add(widthField);
 		sizePanel.add(heightField);
 		
-		sizePanel.setPreferredSize(new Dimension(140, sizePanel.getPreferredSize().height));
+		sizePanel.setPreferredSize(new Dimension(150, sizePanel.getPreferredSize().height));
 		
 		layout.putConstraint(NORTH, sizePanel, 5, SOUTH, dirPanel);
 		layout.putConstraint(WEST, sizePanel, 5, WEST, this);
