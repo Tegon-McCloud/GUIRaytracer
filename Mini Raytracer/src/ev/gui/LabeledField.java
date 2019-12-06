@@ -11,7 +11,7 @@ import javax.swing.SwingConstants;
 @SuppressWarnings("serial")
 public class LabeledField extends JPanel {
 	
-	JTextField field;
+	private JTextField field;
 	
 	public LabeledField(String name, String text) {
 		
@@ -47,4 +47,8 @@ public class LabeledField extends JPanel {
 		return field.getText();
 	}
 	
+	
+	public void setString(String s) {
+		field.setText(s);
+	}
 }

@@ -56,5 +56,16 @@ public class Vec3Panel extends JPanel {
 		return new Vec3(fx.getFloat(), fy.getFloat(), fz.getFloat());
 	}
 	
+	public void setVec(Vec3 v) {
+		fx.setString(v.x + "");
+		fy.setString(v.y + "");
+		fz.setString(v.z + "");
+	}
+	
+	public void emptyOut() {
+		fx.setString("");
+		fy.setString("");
+		fz.setString("");
+	}
 }
 
