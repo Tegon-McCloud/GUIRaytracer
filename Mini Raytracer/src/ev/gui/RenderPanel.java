@@ -68,7 +68,7 @@ public class RenderPanel extends JPanel {
 		
 		@Override
 		protected BufferedImage doInBackground() {
-			return renderer.render(GUI.getScene(), GUI.getCamera());
+			return renderer.render(GUI.getSceneCpy(), GUI.getCamera());
 		}
 		
 		@Override

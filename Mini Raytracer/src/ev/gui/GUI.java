@@ -1,3 +1,4 @@
+
 package ev.gui;
 
 import static ev.math.MathUtil.*;
@@ -18,7 +19,7 @@ import ev.math.Vec3;
 
 
 /**
- * The GUI class is responsible for handling all GUI activity, including handling of input.
+ * The GUI class is responsible for handling all GUI activity.
  */
 public class GUI {
 
@@ -57,13 +58,16 @@ public class GUI {
 		
 	}
 	
-	public static Scene getScene() {
+	public static Scene getSceneCpy() {
 		// test scene
-		Scene s = new Scene(new Vec3(0.5f, 0.0f, 0.0f));
-		s.lights.put("a light", new DistantLight(new Vec3(1, 2, 1), new Vec3(1,1,1), 1));
-		s.shapes.put("a sphere", new Sphere(new Vec3(0, 0, 5), 1));
-		s.shapes.put("a plane", new Plane(new Vec3(0, -1, 0), new Vec3(0, -1, 0)));
-		return s;
+//		Scene s = new Scene(new Vec3(0.5f, 0.0f, 0.0f));
+//		s.lights.put("a light", new DistantLight(new Vec3(1, 2, 1), new Vec3(1,1,1), 1));
+//		s.shapes.put("a sphere", new Sphere(new Vec3(0, 0, 5), 1));
+//		s.shapes.put("a plane", new Plane(new Vec3(0, -1, 0), new Vec3(0, -1, 0)));
+//		return s;
+		
+		return new Scene(cp.getScene());
+		
 	}
 	
 	public static Camera getCamera() {

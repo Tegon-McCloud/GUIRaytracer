@@ -68,4 +68,8 @@ public class Sphere extends Shape {
 		return surfPos.sub(pos).mul(1 / radius);
 	}
 	
+	@Override
+	public Shape clone() {
+		return new Sphere(new Vec3(pos), radius);
+	}
 }

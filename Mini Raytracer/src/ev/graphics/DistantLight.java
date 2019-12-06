@@ -17,6 +17,15 @@ public class DistantLight {
 		this.col = col;
 		this.intensity = intensity;
 	}
+	
+	/**
+	 * A copy constructor
+	 * 
+	 * @param orig the DistantLight to copy
+	 */
+	public DistantLight(DistantLight orig) {
+		this(orig.dir, new Vec3(orig.col), orig.intensity);
+	}
 
 	/**
 	 * @return the direction
@@ -59,7 +68,5 @@ public class DistantLight {
 	public void setIntensity(float intensity) {
 		this.intensity = intensity;
 	}
-	
-	
 
 }

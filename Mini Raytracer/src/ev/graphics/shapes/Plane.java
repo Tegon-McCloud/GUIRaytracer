@@ -58,5 +58,9 @@ public class Plane extends Shape {
 	public Vec3 normal(Vec3 surfPos) {
 		return new Vec3(normal);
 	}
-
+	
+	@Override
+	public Shape clone() {
+		return new Plane(new Vec3(pos), normal);
+	}
 }
