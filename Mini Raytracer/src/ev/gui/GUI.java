@@ -72,4 +72,8 @@ public class GUI {
 		return frame;
 	}
 	
+	public static ControlPanel getControlPanel() {
+		return cp;
+	}
+	
 }
