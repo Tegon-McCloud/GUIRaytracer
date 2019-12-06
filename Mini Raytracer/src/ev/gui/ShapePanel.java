@@ -1,16 +1,17 @@
 package ev.gui;
 
 import java.awt.Dimension;
-import java.sql.SQLException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 import javax.swing.SpringLayout;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 
 import ev.graphics.shapes.Sphere;
-import ev.math.Vec3;
+import ev.gui.shapepanels.SpherePanel;
 
 @SuppressWarnings("serial")
 public class ShapePanel extends JPanel {
@@ -21,6 +22,9 @@ public class ShapePanel extends JPanel {
 	public ShapePanel() {
 		SpringLayout layout = new SpringLayout();
 		setLayout(layout);
+		
+		ShapesComboBox scb = new ShapesComboBox();
+		scb.addItem(new SpherePanel());
 		
 		posPanel = new Vec3Panel();
 		posPanel.setBorder(BorderFactory.createTitledBorder("Position"));
@@ -47,9 +51,32 @@ public class ShapePanel extends JPanel {
 				System.err.println("Failed to add the shape to the scene");
 			}
 		});
-		add(addButton);
-		
-		
-		
+		add(addButton);	
+	}
+	
+	class ShapesComboBox extends JComboBox<JPanel> {
+
+		public ShapesComboBox() {
+
+			addPopupMenuListener(new PopupMenuListener() {
+
+				@Override
+				public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+					try {
+						
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+				}
+
+				@Override
+				public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {}
+
+				@Override
+				public void popupMenuCanceled(PopupMenuEvent e) {}
+			});
+
+		}
+
 	}
 }
