@@ -6,9 +6,12 @@ import static javax.swing.SpringLayout.SOUTH;
 import static javax.swing.SpringLayout.WEST;
 
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Label;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -72,16 +75,22 @@ class EditPanel extends JPanel {
 	public EditPanel() {
 		
 		for(int i = 0; i < 30; i++) {
-			GUI.getControlPanel().getScene().lights.put("testLight" + i, new DistantLight(new Vec3(0, 1, 0), new Vec3(0.5f, 0.5f, 0.5f), 3));
+			GUI.getControlPanel().getScene().lights.put("testLight" + i, new DistantLight(new Vec3(i, 1, 0), new Vec3(0.5f, 0.5f, 0.5f), 3));
 		}
 		
 		
 		SpringLayout layout = new SpringLayout();
 		setLayout(layout);
 		
-		tableModel = new DefaultTableModel();
+		tableModel = new DefaultTableModel() {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
 		
 		JTable table = new JTable(tableModel);
+		
 		JScrollPane sp = new JScrollPane(table);
 		
 		layout.putConstraint(NORTH, sp, 5, NORTH, this);
@@ -90,19 +99,30 @@ class EditPanel extends JPanel {
 		layout.putConstraint(SOUTH, sp, 200, NORTH, sp);
 		add(sp);
 		
-		table.getSelectionModel().addListSelectionListener(e -> {
-			// TODO
-		});
-		
 		rebuildTableModel();
 		
 		SelectedPanel selectedPanel = new SelectedPanel();
-		selectedPanel.setBorder(BorderFactory.createTitledBorder("Selected"));
+		selectedPanel.setBorder(BorderFactory.createTitledBorder("Selected: none"));
 		layout.putConstraint(NORTH, selectedPanel, 5, SOUTH, sp);
 		layout.putConstraint(WEST, selectedPanel, 5, WEST, this);
 		layout.putConstraint(EAST, selectedPanel, -5, EAST, this);
 		layout.putConstraint(SOUTH, selectedPanel, -5, SOUTH, this);
 		add(selectedPanel);
+		
+		
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(e.getClickCount() == 1) {
+					String key = (String) tableModel.getValueAt(table.rowAtPoint(e.getPoint()), 0);
+					selectedPanel.select(GUI.getControlPanel().getScene().lights.get(key));
+					
+					selectedPanel.setBorder(BorderFactory.createTitledBorder("Selected: " + key));
+				}
+				
+				
+			}
+		});
 		
 	}
 	
@@ -134,9 +154,10 @@ class EditPanel extends JPanel {
 class SelectedPanel extends JPanel {
 	
 	private DistantLight selected;
+	
 	private JButton saveButton;
 	private Vec3Panel dir;
-	private JPanel colIntensPanel;
+	private JPanel colPanel;
 	private LabeledField red, green, blue, intensity;
 	
 	public SelectedPanel() {
@@ -146,14 +167,39 @@ class SelectedPanel extends JPanel {
 		
 		dir = new Vec3Panel();
 		dir.setBorder(BorderFactory.createTitledBorder("Direction"));
-		dir.setPreferredSize(new Dimension(120, dir.getPreferredSize().height));
+		dir.setPreferredSize(dir.getPreferredSize());
 		layout.putConstraint(NORTH, dir, 5, NORTH, this);
 		layout.putConstraint(WEST, dir, 5, WEST, this);
 		add(dir);
 		
+		colPanel = new JPanel();
+		colPanel.setLayout(new GridLayout(4, 1));
 		
+		colPanel.add(red = new LabeledField("r", ""));
+		colPanel.add(green = new LabeledField("g", ""));
+		colPanel.add(blue = new LabeledField("b", ""));
+		colPanel.add(intensity = new LabeledField("intensity", ""));
 		
-		//select(null);
+		colPanel.setBorder(BorderFactory.createTitledBorder("Color"));
+		colPanel.setPreferredSize(colPanel.getPreferredSize());
+		
+		layout.putConstraint(NORTH, colPanel, 5, NORTH, this);
+		layout.putConstraint(WEST, colPanel, 5, EAST, dir);
+		add(colPanel);
+		
+		saveButton = new JButton("Save");
+		saveButton.setPreferredSize(new Dimension(80, 20));
+		layout.putConstraint(NORTH, saveButton, 5, SOUTH, dir);
+		layout.putConstraint(WEST, saveButton, 5, WEST, this);
+		add(saveButton);
+		
+		saveButton.addActionListener(e -> {
+			
+			
+			
+		});
+		
+		select(null);
 	}
 	
 	public void select(DistantLight l) {
@@ -167,7 +213,7 @@ class SelectedPanel extends JPanel {
 			blue.setString(col.z + "");
 			intensity.setString(l.getIntensity() + "");
 		}else {
-			dir.emptyOut();
+			dir.empty();
 			red.setString("");
 			green.setString("");
 			blue.setString("");

@@ -30,13 +30,9 @@ public class Vec3Panel extends JPanel {
 		GridLayout layout = new GridLayout(3, 1);
 		setLayout(layout);
 		
-		fx = new LabeledField(xName, x);
-		fy = new LabeledField(yName, y);
-		fz = new LabeledField(zName, z);
-		
-		add(fx);
-		add(fy);
-		add(fz);
+		add(fx = new LabeledField(xName, x));
+		add(fy = new LabeledField(yName, y));
+		add(fz = new LabeledField(zName, z));
 		
 	}
 	
@@ -62,7 +58,7 @@ public class Vec3Panel extends JPanel {
 		fz.setString(v.z + "");
 	}
 	
-	public void emptyOut() {
+	public void empty() {
 		fx.setString("");
 		fy.setString("");
 		fz.setString("");
