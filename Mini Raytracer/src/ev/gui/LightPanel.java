@@ -29,50 +29,12 @@ import ev.graphics.DistantLight;
 import ev.math.Vec3;
 
 @SuppressWarnings("serial")
-public class LightPanel extends JSplitPane {
+public class LightPanel extends JPanel {
+
 	
-	private AddPanel addPanel;
-	private EditPanel editPanel;
+private DefaultTableModel tableModel;
 	
 	public LightPanel() {
-		super(VERTICAL_SPLIT);
-	
-		addPanel = new AddPanel();
-		Border addBorder = BorderFactory.createTitledBorder("Add");
-		addPanel.setBorder(addBorder);
-		setLeftComponent(addPanel);
-		
-		
-		editPanel = new EditPanel();
-		editPanel.setBorder(BorderFactory.createTitledBorder("Edit"));
-		setRightComponent(editPanel);
-		
-		Insets addPanelInsets = addBorder.getBorderInsets(addPanel);
-		setDividerLocation(addPanel.getPreferredSize().height + addPanelInsets.top + addPanelInsets.bottom + dividerSize / 2);
-	}
-	
-}
-
-@SuppressWarnings("serial")
-class AddPanel extends JPanel {
-	
-	public AddPanel() {
-		SpringLayout layout = new SpringLayout();
-		setLayout(layout);	
-		
-		
-		setPreferredSize(layout.preferredLayoutSize(this));
-		
-	}
-	
-}
-
-@SuppressWarnings("serial")
-class EditPanel extends JPanel {
-	
-	private DefaultTableModel tableModel;
-	
-	public EditPanel() {
 		
 		for(int i = 0; i < 30; i++) {
 			GUI.getControlPanel().getScene().lights.put("testLight" + i, new DistantLight(new Vec3(i, 1, 0), new Vec3(0.5f, 0.5f, 0.5f), 3));
@@ -102,7 +64,7 @@ class EditPanel extends JPanel {
 		rebuildTableModel();
 		
 		SelectedPanel selectedPanel = new SelectedPanel();
-		selectedPanel.setBorder(BorderFactory.createTitledBorder("Selected: none"));
+		selectedPanel.setBorder(BorderFactory.createTitledBorder("Add/Edit"));
 		layout.putConstraint(NORTH, selectedPanel, 5, SOUTH, sp);
 		layout.putConstraint(WEST, selectedPanel, 5, WEST, this);
 		layout.putConstraint(EAST, selectedPanel, -5, EAST, this);
@@ -153,22 +115,27 @@ class EditPanel extends JPanel {
 @SuppressWarnings("serial")
 class SelectedPanel extends JPanel {
 	
-	private DistantLight selected;
 	
 	private JButton saveButton;
 	private Vec3Panel dir;
 	private JPanel colPanel;
-	private LabeledField red, green, blue, intensity;
+	private LabeledField red, green, blue, intensity, name;
 	
 	public SelectedPanel() {
 		
 		SpringLayout layout = new SpringLayout();
 		setLayout(layout);
 		
+		name = new LabeledField("name", "");
+		name.setPreferredSize(name.getPreferredSize());
+		layout.putConstraint(NORTH, name, 5, NORTH, this);
+		layout.putConstraint(WEST, name, 5, WEST, this);
+		add(name);
+		
 		dir = new Vec3Panel();
 		dir.setBorder(BorderFactory.createTitledBorder("Direction"));
 		dir.setPreferredSize(dir.getPreferredSize());
-		layout.putConstraint(NORTH, dir, 5, NORTH, this);
+		layout.putConstraint(NORTH, dir, 5, SOUTH, name);
 		layout.putConstraint(WEST, dir, 5, WEST, this);
 		add(dir);
 		
@@ -184,7 +151,7 @@ class SelectedPanel extends JPanel {
 		colPanel.setPreferredSize(colPanel.getPreferredSize());
 		
 		layout.putConstraint(NORTH, colPanel, 5, NORTH, this);
-		layout.putConstraint(WEST, colPanel, 5, EAST, dir);
+		layout.putConstraint(WEST, colPanel, 5, EAST, name);
 		add(colPanel);
 		
 		saveButton = new JButton("Save");
@@ -203,7 +170,6 @@ class SelectedPanel extends JPanel {
 	}
 	
 	public void select(DistantLight l) {
-		selected = l;
 		
 		if(l != null) {
 			dir.setVec(l.getDir());
