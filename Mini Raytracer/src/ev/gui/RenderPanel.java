@@ -23,9 +23,10 @@ import ev.graphics.Renderer;
 @SuppressWarnings("serial")
 public class RenderPanel extends JPanel {
 	
-	
+	/**
+	 * Construct a RenderPanel
+	 */
 	public RenderPanel() {
-		//setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		SpringLayout layout = new SpringLayout();
 		setLayout(layout);
 		
@@ -52,6 +53,9 @@ public class RenderPanel extends JPanel {
 		
 	}
 	
+	/**
+	 * The RenderingWorker is a SwingWorker that renders the image on a worker thread, to not freeze the GUI
+	 */
 	class RenderingWorker extends SwingWorker<BufferedImage, Void> {
 		
 		private ImagePanel target;
@@ -66,11 +70,17 @@ public class RenderPanel extends JPanel {
 			this.renderer = renderer;
 		}
 		
+		/**
+		 * Renders the image
+		 */
 		@Override
 		protected BufferedImage doInBackground() {
 			return renderer.render(GUI.getSceneCpy(), GUI.getCamera());
 		}
 		
+		/**
+		 * Displays the image in target
+		 */
 		@Override
 		protected void done() {
 			try {

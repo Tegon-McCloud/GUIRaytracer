@@ -19,7 +19,7 @@ public class Camera {
 	private Matrix33 rotation;
 	
 	/**
-	 * Construct a camera and set position, direction, image width and height and fov.
+	 * Construct a camera and set position, direction, image width and height, fov and the max number of times light can be reflected.
 	 * 
 	 * @param pos the initial position
 	 * @param yaw the initial yaw
@@ -28,6 +28,7 @@ public class Camera {
 	 * @param width the initial image width
 	 * @param height the initial image height
 	 * @param fov the initial fov
+	 * @param maxDepth the maximum amount of times light should be allowed to bounce. This has huge performance implications.
 	 */
 	public Camera(Vec3 pos, float yaw, float pitch, float roll, int width, int height, float fov, int maxDepth) {
 		moveTo(pos);
@@ -36,7 +37,12 @@ public class Camera {
 		setYawPitchRoll(yaw, pitch, roll);
 		this.maxDepth = maxDepth;
 	}
-
+	
+	/**
+	 * Copy constructor
+	 * 
+	 * @param orig the Camera to copy
+	 */
 	public Camera(Camera orig) {
 		this(orig.pos, orig.yaw, orig.pitch, orig.roll, orig.width, orig.height, orig.fov, orig.maxDepth);
 	}

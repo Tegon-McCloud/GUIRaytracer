@@ -24,19 +24,28 @@ import javax.swing.table.DefaultTableModel;
 import ev.graphics.DistantLight;
 import ev.math.Vec3;
 
+/**
+ * LightPanel gives users the ability to edit the lighting of a scene.
+ * It is build of a table with all lights currently in the scene.
+ * It also includes a AddEditPanel for, well, adding and editing lights.
+ * Lastly it also allows users to adjust the background.
+ */
 @SuppressWarnings("serial")
 public class LightPanel extends JPanel {
 
 	
 private DefaultTableModel tableModel;
 	
+	/**
+	 * Constructs a LightPanel
+	 */
 	public LightPanel() {
 		
 		GUI.getControlPanel().getScene().lights = new HashMap<String, DistantLight>(){
 			@Override
-			public DistantLight put(String key, DistantLight value) {
+			public DistantLight put(String key, DistantLight value) { // makes Scene.lights a special HashMap
 				DistantLight l = super.put(key, value);
-				rebuildTableModel();
+				rebuildTableModel();	// add this line to the put function
 				return l;
 			}
 		};
@@ -44,7 +53,7 @@ private DefaultTableModel tableModel;
 		SpringLayout layout = new SpringLayout();
 		setLayout(layout);
 		
-		tableModel = new DefaultTableModel() {
+		tableModel = new DefaultTableModel() { // create a default table model except where every cell is not editable
 			@Override
 			public boolean isCellEditable(int row, int column) {
 				return false;
@@ -53,7 +62,7 @@ private DefaultTableModel tableModel;
 		
 		JTable table = new JTable(tableModel);
 		
-		JScrollPane sp = new JScrollPane(table);
+		JScrollPane sp = new JScrollPane(table); // wrap the table in a JScrollPane
 		
 		layout.putConstraint(NORTH, sp, 5, NORTH, this);
 		layout.putConstraint(WEST, sp, 5, WEST, this);
@@ -63,7 +72,7 @@ private DefaultTableModel tableModel;
 		
 		rebuildTableModel();
 		
-		SelectedPanel selectedPanel = new SelectedPanel();
+		AddEditPanel selectedPanel = new AddEditPanel();
 		selectedPanel.setBorder(BorderFactory.createTitledBorder("Add/Edit"));
 		layout.putConstraint(NORTH, selectedPanel, 5, SOUTH, sp);
 		layout.putConstraint(WEST, selectedPanel, 5, WEST, this);
@@ -76,7 +85,7 @@ private DefaultTableModel tableModel;
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(e.getClickCount() == 1) {
-					String key = (String) tableModel.getValueAt(table.rowAtPoint(e.getPoint()), 0);
+					String key = (String) tableModel.getValueAt(table.rowAtPoint(e.getPoint()), 0); // get the name of the clicked light
 					selectedPanel.select(key);
 				}
 			}
@@ -84,6 +93,9 @@ private DefaultTableModel tableModel;
 		
 	}
 	
+	/**
+	 * updates the data displayed in the table of this LightPanel
+	 */
 	public void rebuildTableModel() {
 		
 		HashMap<String, DistantLight> lights = GUI.getControlPanel().getScene().lights;
@@ -108,8 +120,15 @@ private DefaultTableModel tableModel;
 	
 }
 
+/**
+ * 
+ * 
+ * @author SharkGaming
+ *
+ */
+
 @SuppressWarnings("serial")
-class SelectedPanel extends JPanel {
+class AddEditPanel extends JPanel {
 	
 	
 	private JButton saveButton;
@@ -117,7 +136,7 @@ class SelectedPanel extends JPanel {
 	private JPanel colPanel;
 	private LabeledField red, green, blue, intensity, name;
 	
-	public SelectedPanel() {
+	public AddEditPanel() {
 		
 		SpringLayout layout = new SpringLayout();
 		setLayout(layout);

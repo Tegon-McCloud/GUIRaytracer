@@ -28,6 +28,7 @@ public class Intersection {
 	 * 
 	 * @param r the Ray that is intersecting some shape
 	 * @param s the Shape that the ray is intersecting
+	 * @param dist the distance to set
 	 */
 	public Intersection(Ray r, Shape s, float dist) {
 		this.r = r;

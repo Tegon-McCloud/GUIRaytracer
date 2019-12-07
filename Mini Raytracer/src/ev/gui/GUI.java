@@ -28,6 +28,13 @@ public class GUI {
 	private static ControlPanel cp;
 	private static RenderPanel rp;
 	
+	/**
+	 * Initializes the GUI.
+	 * Entry of the program.
+	 * 
+	 * @param args ignored
+	 * @throws Throwable if the program crashes in one way or another
+	 */
 	public static void main(String[] args) throws Throwable {
 		
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

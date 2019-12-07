@@ -10,8 +10,8 @@ public class Vec2 {
 	public float x, y;
 
 	/**
-	 * @param x
-	 * @param y
+	 * @param x the x value
+	 * @param y the y value
 	 */
 	public Vec2(float x, float y) {
 		this.x = x;

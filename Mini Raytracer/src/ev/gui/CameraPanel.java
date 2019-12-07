@@ -16,12 +16,18 @@ import javax.swing.SpringLayout;
 import ev.graphics.Camera;
 import ev.math.Vec3;
 
+/**
+ * The CameraPanel allows users to control the virtual camera that is currently being rendered from.
+ */
 @SuppressWarnings("serial")
 public class CameraPanel extends JPanel {
 
-	Vec3Panel posPanel, dirPanel;
-	LabeledField widthField, heightField, fovField, depthField;
+	private Vec3Panel posPanel, dirPanel;
+	private LabeledField widthField, heightField, fovField, depthField;
 
+	/**
+	 * Contructs a CameraPanel. 
+	 */
 	public CameraPanel() {
 
 		SpringLayout layout = new SpringLayout();
@@ -85,6 +91,12 @@ public class CameraPanel extends JPanel {
 		
 	}
 	
+	/**
+	 * Reads all the fields and constructs a camera from the values.
+	 * 
+	 * @return a Camera with the values specified in the fields
+	 * @throws NumberFormatException if one of the fields contains something that doesn't fit.
+	 */
 	public Camera getCamera() throws NumberFormatException {
 		try {
 			Vec3 dir = dirPanel.getVec();

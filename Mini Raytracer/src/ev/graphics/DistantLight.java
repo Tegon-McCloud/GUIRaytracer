@@ -8,9 +8,9 @@ public class DistantLight {
 	private float intensity;
 
 	/**
-	 * @param dir
-	 * @param col
-	 * @param intensity
+	 * @param dir the desired direction. This does not need to be pre-normalized.
+	 * @param col the color of the light.
+	 * @param intensity a scalar for the color.
 	 */
 	public DistantLight(Vec3 dir, Vec3 col, float intensity) {
 		this.dir = dir.normalized();
@@ -19,7 +19,7 @@ public class DistantLight {
 	}
 	
 	/**
-	 * A copy constructor
+	 * Copy constructor
 	 * 
 	 * @param orig the DistantLight to copy
 	 */
