@@ -20,16 +20,33 @@ public class ShapePanel extends JPanel {
 	private Vec3Panel posPanel;
 	private LabeledField radiusPanel;
 	private JButton addButton;
-	private static HashMap<String, Shape> shapes = new HashMap<String, Shape>();
+	private HashMap<String, Shape> shapes;
 	private SpherePanel spherePanel;
 	
 	public ShapePanel() {
+		
+		shapes = new HashMap<String, Shape>() {
+			@Override
+			public Shape put(String key, Shape value) {
+				Shape s = super.put(key, value);
+				rebuildTables();
+				return s;
+			}
+			
+			@Override
+			public Shape remove(Object key) {
+				Shape s = super.remove(key);
+				rebuildTables();
+				return s;
+			}
+			
+		};
 		
 		SpringLayout layout = new SpringLayout();
 		setLayout(layout);
 		
 		ShapesComboBox scb = new ShapesComboBox();
-		scb.addItem(new SpherePanel());
+		scb.addItem(new SpherePanel(shapes));
 		
 		scb.addItemListener(e -> {
 			if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -40,7 +57,7 @@ public class ShapePanel extends JPanel {
 		
 		//add(scb);
 		
-		spherePanel = new SpherePanel();
+		spherePanel = new SpherePanel(shapes);
 		spherePanel.setBorder(BorderFactory.createTitledBorder("SpherePanel"));
 		spherePanel.setPreferredSize(new Dimension(200, 500));
 		layout.putConstraint(SpringLayout.NORTH, spherePanel, 5, SpringLayout.NORTH, this);
@@ -76,8 +93,13 @@ public class ShapePanel extends JPanel {
 		add(addButton);*/
 	}
 	
-	public static HashMap<String, Shape> getShapes(){
+	public HashMap<String, Shape> getShapes(){
 		return shapes;
+	}
+	
+	private void rebuildTables() {
+		spherePanel.rebuildTableModel();
+		
 	}
 	
 	private class ShapesComboBox extends JComboBox<JPanel> {
@@ -105,5 +127,6 @@ public class ShapePanel extends JPanel {
 		}
 
 	}
+	
 }
 

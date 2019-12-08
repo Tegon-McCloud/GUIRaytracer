@@ -8,37 +8,36 @@ import ev.math.Vec3;
 
 @SuppressWarnings("serial")
 public class ControlPanel extends JTabbedPane {
-	
+
 	private CameraPanel cameraPanel;
 	private ShapePanel shapePanel;
 	private LightPanel lightPanel;
-	
+
 	public ControlPanel() {
-		
-		
+
+
 	}
-	
+
 	public void init() {
 		cameraPanel = new CameraPanel();
 		addTab("Camera", cameraPanel);
-		
+
 		shapePanel = new ShapePanel();
 		addTab("Shapes", shapePanel);
-		
+
 		lightPanel = new LightPanel();
 		addTab("Lighting", lightPanel);
 	}
-	
+
 	public Camera getCamera() {
 		return cameraPanel.getCamera();
 	}
-	
+
 	public Scene getScene() {
-        Scene s = new Scene(lightPanel.getBGColor());
-        s.lights = lightPanel.getLights();
-        
-s.shapes = shapePanel.getShapes(); // eller whatéver
-        return new Scene(s); // deep-copy 
-    }
-	
+		Scene s = new Scene(lightPanel.getBGColor());
+		s.lights = lightPanel.getLights(); 
+		s.shapes = shapePanel.getShapes();
+		return new Scene(s); // deep-copy 
+	}
+
 }

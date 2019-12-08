@@ -27,7 +27,10 @@ import ev.gui.LabeledField;
 import ev.gui.ShapePanel;
 import ev.gui.Vec3Panel;
 
+@SuppressWarnings("serial")
 public class SpherePanel extends JPanel {
+	
+	private HashMap<String, Shape> target;
 	
 	private DefaultTableModel tableModel;
 	
@@ -35,7 +38,8 @@ public class SpherePanel extends JPanel {
 	 * Constructs a SpherePanel
 	 */
 	
-	public SpherePanel() {
+	public SpherePanel(HashMap<String, Shape> target) {
+		this.target = target;
 		
 		SpringLayout layout = new SpringLayout();
 		setLayout(layout);
@@ -59,7 +63,7 @@ public class SpherePanel extends JPanel {
 		
 		rebuildTableModel();
 		
-		AddEditPanel selectedPanel = new AddEditPanel();
+		AddEditPanel selectedPanel = new AddEditPanel(target);
 		selectedPanel.setBorder(BorderFactory.createTitledBorder("Add/Edit"));
 		layout.putConstraint(NORTH, selectedPanel, 5, SOUTH, sp);
 		layout.putConstraint(WEST, selectedPanel, 5, WEST, this);
@@ -79,20 +83,13 @@ public class SpherePanel extends JPanel {
 		
 	}
 	
-	@Override
-	public String toString() {
-		return "Spheres";
-	}
-	
 	public void rebuildTableModel() {
 		
-		
 		HashMap<String, Sphere> spheres = new HashMap<String, Sphere>();
-		HashMap<String, Shape> shapes = ShapePanel.getShapes();
 		
-		for(String key: shapes.keySet()) {
-			if(shapes.get(key) instanceof Sphere) {
-				spheres.put(key, (Sphere) shapes.get(key));
+		for(String key: target.keySet()) {
+			if(target.get(key) instanceof Sphere) {
+				spheres.put(key, (Sphere) target.get(key));
 			}
 		}
 		
@@ -113,71 +110,78 @@ public class SpherePanel extends JPanel {
 		
 	}
 	
-	@SuppressWarnings("serial")
-	private class AddEditPanel extends JPanel {
-		
-		
-		private JButton saveButton;
-		private Vec3Panel pos;
-		private LabeledField radius, name;
-		
-		public AddEditPanel() {
-			
-			SpringLayout layout = new SpringLayout();
-			setLayout(layout);
-			
-			name = new LabeledField("name", "");
-			name.setPreferredSize(name.getPreferredSize());
-			layout.putConstraint(NORTH, name, 5, NORTH, this);
-			layout.putConstraint(WEST, name, 5, WEST, this);
-			add(name);
-			
-			pos = new Vec3Panel();
-			pos.setBorder(BorderFactory.createTitledBorder("Position"));
-			pos.setPreferredSize(pos.getPreferredSize());
-			layout.putConstraint(NORTH, pos, 5, SOUTH, name);
-			layout.putConstraint(WEST, pos, 5, WEST, this);
-			add(pos);
-			
-			radius = new LabeledField("radius", "");
-			radius.setPreferredSize(radius.getPreferredSize());
-			layout.putConstraint(NORTH, radius, 5, SOUTH, pos);
-			layout.putConstraint(WEST, radius, 5, WEST, this);
-			add(radius);
-			
-			saveButton = new JButton("Save");
-			saveButton.setPreferredSize(new Dimension(80, 20));
-			layout.putConstraint(NORTH, saveButton, 5, SOUTH, radius);
-			layout.putConstraint(WEST, saveButton, 5, WEST, this);
-			
-			saveButton.addActionListener(e -> {
-				
-				ShapePanel.getShapes().put(name.getString(),
-						new Sphere(
-								pos.getVec(),
-								radius.getFloat()));
-				
-			});
+	@Override
+	public String toString() {
+		return "Spheres";
+	}
 
-			add(saveButton);
-			
-			select(null);
-		}
+}
+
+@SuppressWarnings("serial")
+class AddEditPanel extends JPanel {
+	private HashMap<String, Shape> target;
+	
+	private JButton saveButton;
+	private Vec3Panel pos;
+	private LabeledField radius, name;
+	
+	public AddEditPanel(HashMap<String, Shape> target) {
+		this.target = target;
 		
-		public void select(String key) {
+		SpringLayout layout = new SpringLayout();
+		setLayout(layout);
+		
+		name = new LabeledField("name", "");
+		name.setPreferredSize(name.getPreferredSize());
+		layout.putConstraint(NORTH, name, 5, NORTH, this);
+		layout.putConstraint(WEST, name, 5, WEST, this);
+		add(name);
+		
+		pos = new Vec3Panel();
+		pos.setBorder(BorderFactory.createTitledBorder("Position"));
+		pos.setPreferredSize(pos.getPreferredSize());
+		layout.putConstraint(NORTH, pos, 5, SOUTH, name);
+		layout.putConstraint(WEST, pos, 5, WEST, this);
+		add(pos);
+		
+		radius = new LabeledField("radius", "");
+		radius.setPreferredSize(radius.getPreferredSize());
+		layout.putConstraint(NORTH, radius, 5, SOUTH, pos);
+		layout.putConstraint(WEST, radius, 5, WEST, this);
+		add(radius);
+		
+		saveButton = new JButton("Save");
+		saveButton.setPreferredSize(new Dimension(80, 20));
+		layout.putConstraint(NORTH, saveButton, 5, SOUTH, radius);
+		layout.putConstraint(WEST, saveButton, 5, WEST, this);
+		
+		saveButton.addActionListener(e -> {
 			
-			Sphere s = (Sphere) ShapePanel.getShapes().get(key);
+			target.put(name.getString(),
+					new Sphere(
+							pos.getVec(),
+							radius.getFloat()));
 			
-			if(s != null) {
-				name.setString(key);
-				pos.setVec(s.pos);
-				radius.setString(s.radius + "");
-			}else {
-				pos.empty();
-				radius.setString("");
-			}
-			
+		});
+
+		add(saveButton);
+		
+		select(null);
+	}
+	
+	public void select(String key) {
+		
+		Sphere s = (Sphere) target.get(key);
+		
+		if(s != null) {
+			name.setString(key);
+			pos.setVec(s.pos);
+			radius.setString(s.radius + "");
+		}else {
+			pos.empty();
+			radius.setString("");
 		}
 		
 	}
+	
 }
