@@ -1,6 +1,8 @@
 package ev.gui;
 
 import java.awt.Dimension;
+import java.awt.event.ItemEvent;
+import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -10,23 +12,43 @@ import javax.swing.SpringLayout;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
-import ev.graphics.shapes.Sphere;
+import ev.graphics.Shape;
 import ev.gui.shapepanels.SpherePanel;
 
 @SuppressWarnings("serial")
 public class ShapePanel extends JPanel {
-	Vec3Panel posPanel;
-	LabeledField radiusPanel;
-	JButton addButton;
+	private Vec3Panel posPanel;
+	private LabeledField radiusPanel;
+	private JButton addButton;
+	private static HashMap<String, Shape> shapes = new HashMap<String, Shape>();
+	private SpherePanel spherePanel;
 	
 	public ShapePanel() {
+		
 		SpringLayout layout = new SpringLayout();
 		setLayout(layout);
 		
 		ShapesComboBox scb = new ShapesComboBox();
 		scb.addItem(new SpherePanel());
 		
-		posPanel = new Vec3Panel();
+		scb.addItemListener(e -> {
+			if (e.getStateChange() == ItemEvent.SELECTED) {
+		          JPanel item = (JPanel) e.getItem();
+		          item.setVisible(true);
+		          }
+		});
+		
+		//add(scb);
+		
+		spherePanel = new SpherePanel();
+		spherePanel.setBorder(BorderFactory.createTitledBorder("SpherePanel"));
+		spherePanel.setPreferredSize(new Dimension(200, 500));
+		layout.putConstraint(SpringLayout.NORTH, spherePanel, 5, SpringLayout.NORTH, this);
+		layout.putConstraint(SpringLayout.WEST, spherePanel, 5, SpringLayout.WEST, this);
+		//spherePanel.setVisible(true);
+		add(spherePanel);
+		
+		/*posPanel = new Vec3Panel();
 		posPanel.setBorder(BorderFactory.createTitledBorder("Position"));
 		posPanel.setPreferredSize(new Dimension(150, posPanel.getPreferredSize().height));
 		layout.putConstraint(SpringLayout.NORTH, posPanel, 5, SpringLayout.NORTH, this);
@@ -51,10 +73,14 @@ public class ShapePanel extends JPanel {
 				System.err.println("Failed to add the shape to the scene");
 			}
 		});
-		add(addButton);	
+		add(addButton);*/
 	}
 	
-	class ShapesComboBox extends JComboBox<JPanel> {
+	public static HashMap<String, Shape> getShapes(){
+		return shapes;
+	}
+	
+	private class ShapesComboBox extends JComboBox<JPanel> {
 
 		public ShapesComboBox() {
 
@@ -80,3 +106,4 @@ public class ShapePanel extends JPanel {
 
 	}
 }
+

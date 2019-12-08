@@ -34,10 +34,11 @@ public class ControlPanel extends JTabbedPane {
 	}
 	
 	public Scene getScene() {
-		Scene s = new Scene(lightPanel.getBGColor());
-		s.lights = lightPanel.getLights();
-		
-		return new Scene(s); // deep-copy 
-	}
+        Scene s = new Scene(lightPanel.getBGColor());
+        s.lights = lightPanel.getLights();
+        
+s.shapes = shapePanel.getShapes(); // eller whatéver
+        return new Scene(s); // deep-copy 
+    }
 	
 }
