@@ -75,7 +75,7 @@ public class Vec3 {
 	}
 	
 	public Vec3 reflect(Vec3 normal) {
-		return normal.mul(-2*this.dot(normal)).add(this);
+		return this.sub(normal.mul(2 * this.dot(normal)));
 	}
 	
 	@Override

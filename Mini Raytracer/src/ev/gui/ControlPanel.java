@@ -13,11 +13,8 @@ public class ControlPanel extends JTabbedPane {
 	private ShapePanel shapePanel;
 	private LightPanel lightPanel;
 	
-	private Scene scene;
-	
 	public ControlPanel() {
 		
-		scene = new Scene(new Vec3(0.5f, 0.0f, 0.0f));
 		
 	}
 	
@@ -29,7 +26,7 @@ public class ControlPanel extends JTabbedPane {
 		addTab("Shapes", shapePanel);
 		
 		lightPanel = new LightPanel();
-		addTab("Lights", lightPanel);
+		addTab("Lighting", lightPanel);
 	}
 	
 	public Camera getCamera() {
@@ -37,7 +34,10 @@ public class ControlPanel extends JTabbedPane {
 	}
 	
 	public Scene getScene() {
-		return scene;
+		Scene s = new Scene(lightPanel.getBGColor());
+		s.lights = lightPanel.getLights();
+		
+		return new Scene(s); // deep-copy 
 	}
 	
 }

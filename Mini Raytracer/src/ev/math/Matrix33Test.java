@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-class MatrixTest {
+class Matrix33Test {
 
 	public static final Matrix33 A = new Matrix33(1, 2, 3, 4, 5, 6, 7, 8, 9);
 	// Matrix A is:

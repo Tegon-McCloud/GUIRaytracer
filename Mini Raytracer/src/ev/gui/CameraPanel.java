@@ -112,7 +112,7 @@ public class CameraPanel extends JPanel {
 		} catch(NumberFormatException e) {
 			JOptionPane.showMessageDialog(
 					GUI.getFrame(),
-					"Please enter exclusicely numbers. \"width\", \"height\" and \"Max. Reflections\" also needs to be integers",
+					"Please enter exclusively numbers. \"width\", \"height\" and \"Max. Reflections\" also needs to be integers",
 					"Number format error",
 					JOptionPane.ERROR_MESSAGE);
 			throw e;

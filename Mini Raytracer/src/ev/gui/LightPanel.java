@@ -15,6 +15,7 @@ import java.util.Iterator;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -33,79 +34,99 @@ import ev.math.Vec3;
 @SuppressWarnings("serial")
 public class LightPanel extends JPanel {
 
+	private HashMap<String, DistantLight> lights;
 	
-private DefaultTableModel tableModel;
-	
+	private DefaultTableModel tableModel;
+	private Vec3Panel bgPanel;
+
 	/**
 	 * Constructs a LightPanel
 	 */
 	public LightPanel() {
-		
-		GUI.getControlPanel().getScene().lights = new HashMap<String, DistantLight>(){
+
+		SpringLayout layout = new SpringLayout();
+		setLayout(layout);
+
+		// background
+		bgPanel = new Vec3Panel("r", "g", "b", 0.0f, 0.7f, 1.0f);
+		bgPanel.setBorder(BorderFactory.createTitledBorder("Background"));
+		bgPanel.setPreferredSize(bgPanel.getPreferredSize());
+		layout.putConstraint(NORTH, bgPanel, 5, NORTH, this);
+		layout.putConstraint(WEST, bgPanel, 5, WEST, this);
+		add(bgPanel);
+		// !backgrounds
+
+		// ligths
+		lights = new HashMap<String, DistantLight>(){
 			@Override
-			public DistantLight put(String key, DistantLight value) { // makes Scene.lights a special HashMap
+			public DistantLight put(String key, DistantLight value) { // 
 				DistantLight l = super.put(key, value);
 				rebuildTableModel();	// add this line to the put function
 				return l;
 			}
+			
+			@Override
+			public DistantLight remove(Object key) {
+				DistantLight l = super.remove(key);
+				rebuildTableModel();
+				return l;
+			}
 		};
-		
-		SpringLayout layout = new SpringLayout();
-		setLayout(layout);
-		
+
+
 		tableModel = new DefaultTableModel() { // create a default table model except where every cell is not editable
 			@Override
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
 		};
-		
+
 		JTable table = new JTable(tableModel);
-		
+
 		JScrollPane sp = new JScrollPane(table); // wrap the table in a JScrollPane
-		
-		layout.putConstraint(NORTH, sp, 5, NORTH, this);
+		sp.setBorder(BorderFactory.createTitledBorder("Lights"));
+
+		layout.putConstraint(NORTH, sp, 5, SOUTH, bgPanel);
 		layout.putConstraint(WEST, sp, 5, WEST, this);
 		layout.putConstraint(EAST, sp, -5, EAST, this);
 		layout.putConstraint(SOUTH, sp, 200, NORTH, sp);
 		add(sp);
-		
+
 		rebuildTableModel();
-		
-		AddEditPanel selectedPanel = new AddEditPanel();
-		selectedPanel.setBorder(BorderFactory.createTitledBorder("Add/Edit"));
-		layout.putConstraint(NORTH, selectedPanel, 5, SOUTH, sp);
-		layout.putConstraint(WEST, selectedPanel, 5, WEST, this);
-		layout.putConstraint(EAST, selectedPanel, -5, EAST, this);
-		layout.putConstraint(SOUTH, selectedPanel, -5, SOUTH, this);
-		add(selectedPanel);
-		
-		
+
+		AddEditPanel editPanel = new AddEditPanel(lights);
+		editPanel.setBorder(BorderFactory.createTitledBorder("Add/Edit"));
+		layout.putConstraint(NORTH, editPanel, 5, SOUTH, sp);
+		layout.putConstraint(WEST, editPanel, 5, WEST, this);
+		layout.putConstraint(EAST, editPanel, -5, EAST, this);
+		layout.putConstraint(SOUTH, editPanel, -5, SOUTH, this);
+		add(editPanel);
+
+
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(e.getClickCount() == 1) {
 					String key = (String) tableModel.getValueAt(table.rowAtPoint(e.getPoint()), 0); // get the name of the clicked light
-					selectedPanel.select(key);
+					editPanel.select(key);
 				}
 			}
 		});
+		// !lights
 		
 	}
-	
+
 	/**
 	 * updates the data displayed in the table of this LightPanel
 	 */
-	public void rebuildTableModel() {
-		
-		HashMap<String, DistantLight> lights = GUI.getControlPanel().getScene().lights;
-		
+	private void rebuildTableModel() {
+
 		String[] colNames = {"Name", "Direction", "Color", "Intensity"};
-		
+
 		Object[][] data = new Object[lights.size()][4];
-		
+
 		Iterator<String> nameIterator = lights.keySet().iterator();
-		
+
 		for(int i = 0; i < lights.size(); i++) {
 			data[i][0] = nameIterator.next();
 			DistantLight l = lights.get((String) data[i][0]);
@@ -113,85 +134,117 @@ private DefaultTableModel tableModel;
 			data[i][2] = l.getCol();
 			data[i][3] = l.getIntensity();
 		}
-		
+
 		tableModel.setDataVector(data, colNames);
-		
+
 	}
 	
+	/**
+	 * @return the color of the background
+	 */
+	public Vec3 getBGColor() {
+		return bgPanel.getVec();
+	}
+	
+	/**
+	 * @return a HashMap containing the current light configuration
+	 */
+	public HashMap<String, DistantLight> getLights() {
+		return lights;
+	}
 }
 
 /**
- * 
- * 
- * @author SharkGaming
- *
+ * AddEditPanel is a panel that allows users to add and/or edit lights 
  */
-
 @SuppressWarnings("serial")
 class AddEditPanel extends JPanel {
-	
-	
-	private JButton saveButton;
+	private HashMap<String, DistantLight> target;
+
 	private Vec3Panel dir;
 	private JPanel colPanel;
 	private LabeledField red, green, blue, intensity, name;
-	
-	public AddEditPanel() {
+
+	public AddEditPanel(HashMap<String, DistantLight> target) {
+		this.target = target;
 		
 		SpringLayout layout = new SpringLayout();
 		setLayout(layout);
-		
+
 		name = new LabeledField("name", "");
 		name.setPreferredSize(name.getPreferredSize());
 		layout.putConstraint(NORTH, name, 5, NORTH, this);
 		layout.putConstraint(WEST, name, 5, WEST, this);
 		add(name);
-		
+
 		dir = new Vec3Panel();
 		dir.setBorder(BorderFactory.createTitledBorder("Direction"));
 		dir.setPreferredSize(dir.getPreferredSize());
 		layout.putConstraint(NORTH, dir, 5, SOUTH, name);
 		layout.putConstraint(WEST, dir, 5, WEST, this);
 		add(dir);
-		
+
 		colPanel = new JPanel();
 		colPanel.setLayout(new GridLayout(4, 1));
-		
+
 		colPanel.add(red = new LabeledField("r", ""));
 		colPanel.add(green = new LabeledField("g", ""));
 		colPanel.add(blue = new LabeledField("b", ""));
 		colPanel.add(intensity = new LabeledField("intensity", ""));
-		
+
 		colPanel.setBorder(BorderFactory.createTitledBorder("Color"));
 		colPanel.setPreferredSize(colPanel.getPreferredSize());
-		
+
 		layout.putConstraint(NORTH, colPanel, 5, NORTH, this);
 		layout.putConstraint(WEST, colPanel, 5, EAST, name);
 		add(colPanel);
-		
-		saveButton = new JButton("Save");
+
+		JButton saveButton = new JButton("Save");
 		saveButton.setPreferredSize(new Dimension(80, 20));
 		layout.putConstraint(NORTH, saveButton, 5, SOUTH, dir);
 		layout.putConstraint(WEST, saveButton, 5, WEST, this);
 		add(saveButton);
+
+		JButton deleteButton = new JButton("Delete");
+		deleteButton.setPreferredSize(new Dimension(80, 20));
+		layout.putConstraint(NORTH, deleteButton, 5, SOUTH, dir);
+		layout.putConstraint(WEST, deleteButton, 5, EAST, saveButton);
+		add(deleteButton);
 		
 		saveButton.addActionListener(e -> {
-			
-			GUI.getControlPanel().getScene().lights.put(name.getString(),
-					new DistantLight(
-							dir.getVec(),
-							new Vec3(red.getFloat(), green.getFloat(), blue.getFloat()),
-							intensity.getFloat()));
-			
+			try {
+				
+				target.put(name.getString(),
+						new DistantLight(
+								dir.getVec(),
+								new Vec3(red.getFloat(), green.getFloat(), blue.getFloat()),
+								intensity.getFloat()));
+				
+			}catch (NumberFormatException e1) {
+				
+				JOptionPane.showMessageDialog(
+						GUI.getFrame(),
+						"Please enter exclusively numbers.",
+						"Number format error",
+						JOptionPane.ERROR_MESSAGE);
+				
+			}
+		});
+		
+		deleteButton.addActionListener(e -> {
+			target.remove(name.getString());
 		});
 		
 		select(null);
 	}
 	
+	/**
+	 * @param key
+	 */
 	public void select(String key) {
-		
-		DistantLight l = GUI.getControlPanel().getScene().lights.get(key);
-		
+
+		DistantLight l = target.get(key);
+
 		if(l != null) {
 			name.setString(key);
 			dir.setVec(l.getDir());
@@ -207,9 +260,9 @@ class AddEditPanel extends JPanel {
 			blue.setString("");
 			intensity.setString("");
 		}
-		
+
 	}
-	
+
 }
 
 

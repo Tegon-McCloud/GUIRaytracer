@@ -29,7 +29,7 @@ public class Scene {
 	}
 	
 	/**
-	 * A copy constructor
+	 * Copy constructor
 	 * 
 	 * @param s the Scene to copy
 	 */

@@ -36,7 +36,7 @@ public class LabeledField extends JPanel {
 	
 	
 	public float getFloat() throws NumberFormatException {
-		return Float.parseFloat(field.getText());		
+		return Float.parseFloat(field.getText());
 	}
 	
 	public int getInt() throws NumberFormatException {
