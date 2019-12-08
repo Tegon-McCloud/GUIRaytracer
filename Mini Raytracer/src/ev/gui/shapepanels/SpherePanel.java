@@ -37,7 +37,6 @@ public class SpherePanel extends JPanel {
 	/**
 	 * Constructs a SpherePanel
 	 */
-	
 	public SpherePanel(HashMap<String, Shape> target) {
 		this.target = target;
 		
@@ -87,7 +86,7 @@ public class SpherePanel extends JPanel {
 		
 		HashMap<String, Sphere> spheres = new HashMap<String, Sphere>();
 		
-		for(String key: target.keySet()) {
+		for(String key : target.keySet()) {
 			if(target.get(key) instanceof Sphere) {
 				spheres.put(key, (Sphere) target.get(key));
 			}
