@@ -45,15 +45,15 @@ public class ShapePanel extends JPanel {
 		setLayout(layout);
 
 		spherePanel = new SpherePanel(shapes);
-		spherePanel.setBorder(BorderFactory.createTitledBorder("SpherePanel"));
+		spherePanel.setBorder(BorderFactory.createTitledBorder("Spheres"));
 		spherePanel.setPreferredSize(new Dimension(300, 500));
 		layout.putConstraint(SpringLayout.NORTH, spherePanel, 5, SpringLayout.SOUTH, scb);
 		layout.putConstraint(SpringLayout.WEST, spherePanel, 5, SpringLayout.WEST, this);
-		spherePanel.setVisible(false);
+		spherePanel.setVisible(true);
 		add(spherePanel);
 
 		planePanel = new PlanePanel(shapes);
-		planePanel.setBorder(BorderFactory.createTitledBorder("PlanePanel"));
+		planePanel.setBorder(BorderFactory.createTitledBorder("Planes"));
 		planePanel.setPreferredSize(new Dimension(300, 600));
 		layout.putConstraint(SpringLayout.NORTH, planePanel, 5, SpringLayout.SOUTH, scb);
 		layout.putConstraint(SpringLayout.WEST, planePanel, 5, SpringLayout.WEST, this);
