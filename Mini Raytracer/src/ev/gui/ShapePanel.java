@@ -17,9 +17,6 @@ import ev.gui.shapepanels.SpherePanel;
 
 @SuppressWarnings("serial")
 public class ShapePanel extends JPanel {
-	private Vec3Panel posPanel;
-	private LabeledField radiusPanel;
-	private JButton addButton;
 	private HashMap<String, Shape> shapes;
 	private SpherePanel spherePanel;
 	
@@ -55,42 +52,15 @@ public class ShapePanel extends JPanel {
 		          }
 		});
 		
-		//add(scb);
+		add(scb);
 		
 		spherePanel = new SpherePanel(shapes);
 		spherePanel.setBorder(BorderFactory.createTitledBorder("SpherePanel"));
 		spherePanel.setPreferredSize(new Dimension(200, 500));
-		layout.putConstraint(SpringLayout.NORTH, spherePanel, 5, SpringLayout.NORTH, this);
+		layout.putConstraint(SpringLayout.NORTH, spherePanel, 5, SpringLayout.SOUTH, scb);
 		layout.putConstraint(SpringLayout.WEST, spherePanel, 5, SpringLayout.WEST, this);
-		//spherePanel.setVisible(true);
+		spherePanel.setVisible(true);
 		add(spherePanel);
-		
-		/*posPanel = new Vec3Panel();
-		posPanel.setBorder(BorderFactory.createTitledBorder("Position"));
-		posPanel.setPreferredSize(new Dimension(150, posPanel.getPreferredSize().height));
-		layout.putConstraint(SpringLayout.NORTH, posPanel, 5, SpringLayout.NORTH, this);
-		layout.putConstraint(SpringLayout.WEST, posPanel, 5, SpringLayout.WEST, this);
-		add(posPanel);
-		
-		radiusPanel = new LabeledField("Radius", 0f);
-		radiusPanel.setBorder(BorderFactory.createTitledBorder("Radius"));
-		radiusPanel.setPreferredSize(new Dimension(150, radiusPanel.getPreferredSize().height));
-		layout.putConstraint(SpringLayout.NORTH, radiusPanel, 5, SpringLayout.SOUTH, posPanel);
-		layout.putConstraint(SpringLayout.WEST, radiusPanel, 0, SpringLayout.WEST, posPanel);
-		add(radiusPanel);
-		
-		addButton = new JButton("Add Shape to Scene");
-		addButton.setPreferredSize(new Dimension(150, 30));
-		layout.putConstraint(SpringLayout.NORTH, addButton, 5, SpringLayout.SOUTH, radiusPanel);
-		layout.putConstraint(SpringLayout.WEST, addButton, 0, SpringLayout.WEST, radiusPanel);
-		addButton.addActionListener(e -> {
-			try {
-				GUI.getControlPanel().getScene().shapes.put("min ting", new Sphere(posPanel.getVec(), radiusPanel.getFloat()));
-			} catch (Exception e1) {
-				System.err.println("Failed to add the shape to the scene");
-			}
-		});
-		add(addButton);*/
 	}
 	
 	public HashMap<String, Shape> getShapes(){
