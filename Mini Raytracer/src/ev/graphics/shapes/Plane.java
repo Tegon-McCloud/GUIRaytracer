@@ -44,12 +44,11 @@ public class Plane extends Shape {
 
 	@Override
 	public float intersect(Ray r) {
-		Vec3 oriToPos = r.ori.sub(pos);
 		
 		float dirDotN = r.dir.dot(normal);
 		if(-dirDotN < EPSILON) return Float.POSITIVE_INFINITY; // if dir is pointing in the same direction as normal, we shouldn't be seeing the plane
 		
-		float t = oriToPos.dot(normal) / dirDotN; // refer to equation of the plane and line
+		float t = pos.sub(r.ori).dot(normal) / dirDotN; // refer to equation of the plane and line
 		return t > 0 ? t : Float.POSITIVE_INFINITY;
 		
 	}
