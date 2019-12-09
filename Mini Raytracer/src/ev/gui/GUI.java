@@ -48,9 +48,11 @@ public class GUI {
 			rp.setMinimumSize(new Dimension(400, 400));
 			
 			cp = new ControlPanel();
+			cp.setMinimumSize(new Dimension(400, 400));
 			
 			JSplitPane jsp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, cp, rp);
-			jsp.setPreferredSize(new Dimension(800, 600));
+			jsp.setPreferredSize(new Dimension(1200, 800));
+			jsp.setMinimumSize(jsp.getMinimumSize());
 			jsp.setDividerLocation(400);
 			
 			frame.setContentPane(jsp);
@@ -65,7 +67,7 @@ public class GUI {
 		
 	}
 	
-	public static Scene getSceneCpy() {
+	public static Scene getScene() {
 		// test scene
 //		Scene s = new Scene(new Vec3(0.5f, 0.0f, 0.0f));
 //		s.lights.put("a light", new DistantLight(new Vec3(1, 2, 1), new Vec3(1,1,1), 1));

@@ -12,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map.Entry;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -59,7 +60,7 @@ public class LightPanel extends JPanel {
 		// ligths
 		lights = new HashMap<String, DistantLight>(){
 			@Override
-			public DistantLight put(String key, DistantLight value) { // 
+			public DistantLight put(String key, DistantLight value) {
 				DistantLight l = super.put(key, value);
 				rebuildTableModel();	// add this line to the put function
 				return l;
@@ -117,7 +118,7 @@ public class LightPanel extends JPanel {
 	}
 
 	/**
-	 * updates the data displayed in the table of this LightPanel
+	 * updates the data displayed in the table of this LightPanel. 
 	 */
 	private void rebuildTableModel() {
 
@@ -125,14 +126,14 @@ public class LightPanel extends JPanel {
 
 		Object[][] data = new Object[lights.size()][4];
 
-		Iterator<String> nameIterator = lights.keySet().iterator();
+		Iterator<Entry<String, DistantLight>> it = lights.entrySet().iterator();
 
 		for(int i = 0; i < lights.size(); i++) {
-			data[i][0] = nameIterator.next();
-			DistantLight l = lights.get((String) data[i][0]);
-			data[i][1] = l.getDir();
-			data[i][2] = l.getCol();
-			data[i][3] = l.getIntensity();
+			Entry<String, DistantLight> entry = it.next();
+			data[i][0] = entry.getKey();
+			data[i][1] = entry.getValue().getDir();
+			data[i][2] = entry.getValue().getCol();
+			data[i][3] = entry.getValue().getIntensity();
 		}
 
 		tableModel.setDataVector(data, colNames);
