@@ -20,21 +20,21 @@ import javax.swing.SpringLayout;
 import javax.swing.table.DefaultTableModel;
 
 import ev.graphics.Shape;
-import ev.graphics.shapes.Sphere;
+import ev.graphics.shapes.Plane;
 import ev.gui.LabeledField;
 import ev.gui.Vec3Panel;
 
 @SuppressWarnings("serial")
-public class SpherePanel extends JPanel {
+public class PlanePanel extends JPanel {
 
 	private HashMap<String, Shape> target;
 
 	private DefaultTableModel tableModel;
 
 	/**
-	 * Constructs a SpherePanel
+	 * Constructs a PlanePanel
 	 */
-	public SpherePanel(HashMap<String, Shape> target) {
+	public PlanePanel(HashMap<String, Shape> target) {
 		this.target = target;
 
 		SpringLayout layout = new SpringLayout();
@@ -59,7 +59,7 @@ public class SpherePanel extends JPanel {
 
 		rebuildTableModel();
 
-		AddEditPanel selectedPanel = new AddEditPanel(target);
+		PlaneAddEditPanel selectedPanel = new PlaneAddEditPanel(target);
 		selectedPanel.setBorder(BorderFactory.createTitledBorder("Add/Edit"));
 		layout.putConstraint(NORTH, selectedPanel, 5, SOUTH, sp);
 		layout.putConstraint(WEST, selectedPanel, 5, WEST, this);
@@ -81,25 +81,25 @@ public class SpherePanel extends JPanel {
 
 	public void rebuildTableModel() {
 
-		HashMap<String, Sphere> spheres = new HashMap<String, Sphere>();
+		HashMap<String, Plane> planes = new HashMap<String, Plane>();
 
 		for(String key : target.keySet()) {
-			if(target.get(key) instanceof Sphere) {
-				spheres.put(key, (Sphere) target.get(key));
+			if(target.get(key) instanceof Plane) {
+				planes.put(key, (Plane) target.get(key));
 			}
 		}
 
-		String[] colNames = {"Name", "Position", "Radius"};
+		String[] colNames = {"Name", "Position", "Normal"};
 
-		Object[][] data = new Object[spheres.size()][3];
+		Object[][] data = new Object[planes.size()][3];
 
-		Iterator<String> nameIterator = spheres.keySet().iterator();
+		Iterator<String> nameIterator = planes.keySet().iterator();
 
-		for(int i = 0; i < spheres.size(); i++) {
+		for(int i = 0; i < planes.size(); i++) {
 			data[i][0] = nameIterator.next();
-			Sphere s = spheres.get((String) data[i][0]);
-			data[i][1] = s.pos;
-			data[i][2] = s.radius;
+			Plane p = planes.get((String) data[i][0]);
+			data[i][1] = p.getPos();
+			data[i][2] = p.getNormal();
 		}
 
 		tableModel.setDataVector(data, colNames);
@@ -108,20 +108,20 @@ public class SpherePanel extends JPanel {
 
 	@Override
 	public String toString() {
-		return "Spheres";
+		return "Planes";
 	}
 
 }
 
 @SuppressWarnings("serial")
-class AddEditPanel extends JPanel {
+class PlaneAddEditPanel extends JPanel {
 	private HashMap<String, Shape> target;
 
 	private JButton saveButton;
-	private Vec3Panel pos;
-	private LabeledField radius, name;
+	private Vec3Panel pos, normal;
+	private LabeledField name;
 
-	public AddEditPanel(HashMap<String, Shape> target) {
+	public PlaneAddEditPanel(HashMap<String, Shape> target) {
 		this.target = target;
 
 		SpringLayout layout = new SpringLayout();
@@ -140,24 +140,22 @@ class AddEditPanel extends JPanel {
 		layout.putConstraint(WEST, pos, 5, WEST, this);
 		add(pos);
 
-		radius = new LabeledField("radius", "");
-		radius.setPreferredSize(radius.getPreferredSize());
-		layout.putConstraint(NORTH, radius, 5, SOUTH, pos);
-		layout.putConstraint(WEST, radius, 5, WEST, this);
-		add(radius);
+		normal = new Vec3Panel();
+		normal.setBorder(BorderFactory.createTitledBorder("Normal"));
+		normal.setPreferredSize(normal.getPreferredSize());
+		layout.putConstraint(NORTH, normal, 5, SOUTH, pos);
+		layout.putConstraint(WEST, normal, 5, WEST, this);
+		add(normal);
 
 		saveButton = new JButton("Save");
 		saveButton.setPreferredSize(new Dimension(80, 20));
-		layout.putConstraint(NORTH, saveButton, 5, SOUTH, radius);
+		layout.putConstraint(NORTH, saveButton, 5, SOUTH, normal);
 		layout.putConstraint(WEST, saveButton, 5, WEST, this);
 
 		saveButton.addActionListener(e -> {
 
 			target.put(name.getString(),
-					new Sphere(
-							pos.getVec(),
-							radius.getFloat()));
-
+					new Plane(pos.getVec(), normal.getVec()));
 		});
 
 		add(saveButton);
@@ -167,15 +165,15 @@ class AddEditPanel extends JPanel {
 
 	public void select(String key) {
 
-		Sphere s = (Sphere) target.get(key);
+		Plane p = (Plane) target.get(key);
 
-		if(s != null) {
+		if(p != null) {
 			name.setString(key);
-			pos.setVec(s.pos);
-			radius.setString(s.radius + "");
+			pos.setVec(p.getPos());
+			normal.setVec(p.getNormal());
 		}else {
 			pos.empty();
-			radius.setString("");
+			normal.empty();
 		}
 
 	}

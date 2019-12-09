@@ -33,6 +33,14 @@ public class Plane extends Shape {
 		
 		toXY = Matrix33.getMatrix(normPerp1, normPerp2, normal); // 3 perpendicular vectors with length 1 should give a rotation
 	}
+	
+	public Vec3 getPos() {
+		return pos;
+	}
+	
+	public Vec3 getNormal() {
+		return normal;
+	}
 
 	@Override
 	public float intersect(Ray r) {
