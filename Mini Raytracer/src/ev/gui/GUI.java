@@ -1,8 +1,6 @@
 
 package ev.gui;
 
-import static ev.math.MathUtil.*;
-
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
@@ -11,11 +9,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import ev.graphics.Camera;
-import ev.graphics.DistantLight;
 import ev.graphics.Scene;
-import ev.graphics.shapes.Plane;
-import ev.graphics.shapes.Sphere;
-import ev.math.Vec3;
 
 
 /**

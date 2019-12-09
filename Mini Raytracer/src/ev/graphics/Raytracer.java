@@ -1,6 +1,7 @@
 package ev.graphics;
 
-import static ev.math.MathUtil.*;
+import static ev.math.MathUtil.EPSILON;
+import static ev.math.MathUtil.pow;
 
 import java.awt.image.BufferedImage;
 
@@ -17,12 +18,10 @@ import ev.math.Vec3;
 public class Raytracer implements Renderer {
 	
 	private Scene scene;
-	private Camera camera;
 	
 	@Override
 	public BufferedImage render(Scene s, Camera c) {
 		scene = s;
-		camera = c;
 		
 		BufferedImage img = new BufferedImage(c.getWidth(), c.getHeight(), BufferedImage.TYPE_INT_RGB);
 		

@@ -1,22 +1,8 @@
 package ev.gui;
 
-import static ev.math.MathUtil.*;
-import static javax.swing.SpringLayout.EAST;
-import static javax.swing.SpringLayout.NORTH;
-import static javax.swing.SpringLayout.SOUTH;
-import static javax.swing.SpringLayout.WEST;
-
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SpringLayout;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 
 import ev.math.Vec3;
 
