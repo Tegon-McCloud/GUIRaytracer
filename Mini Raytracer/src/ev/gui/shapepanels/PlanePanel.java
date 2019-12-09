@@ -117,7 +117,7 @@ public class PlanePanel extends JPanel {
 class PlaneAddEditPanel extends JPanel {
 	private HashMap<String, Shape> target;
 
-	private JButton saveButton;
+	private JButton saveButton, deleteButton;
 	private Vec3Panel pos, normal;
 	private LabeledField name;
 
@@ -146,7 +146,7 @@ class PlaneAddEditPanel extends JPanel {
 		layout.putConstraint(NORTH, normal, 5, SOUTH, pos);
 		layout.putConstraint(WEST, normal, 5, WEST, this);
 		add(normal);
-
+		
 		saveButton = new JButton("Save");
 		saveButton.setPreferredSize(new Dimension(80, 20));
 		layout.putConstraint(NORTH, saveButton, 5, SOUTH, normal);
@@ -159,6 +159,17 @@ class PlaneAddEditPanel extends JPanel {
 		});
 
 		add(saveButton);
+		
+		deleteButton = new JButton("Delete");
+		deleteButton.setPreferredSize(new Dimension(80, 20));
+		layout.putConstraint(NORTH, deleteButton, 0, NORTH, saveButton);
+		layout.putConstraint(WEST, deleteButton, 5, EAST, saveButton);
+		
+		deleteButton.addActionListener(e -> {
+			target.remove(name.getString());
+		});
+		
+		add(deleteButton);
 
 		select(null);
 	}

@@ -117,7 +117,7 @@ public class SpherePanel extends JPanel {
 class AddEditPanel extends JPanel {
 	private HashMap<String, Shape> target;
 
-	private JButton saveButton;
+	private JButton saveButton, deleteButton;
 	private Vec3Panel pos;
 	private LabeledField radius, name;
 
@@ -161,6 +161,17 @@ class AddEditPanel extends JPanel {
 		});
 
 		add(saveButton);
+		
+		deleteButton = new JButton("Delete");
+		deleteButton.setPreferredSize(new Dimension(80, 20));
+		layout.putConstraint(NORTH, deleteButton, 0, NORTH, saveButton);
+		layout.putConstraint(WEST, deleteButton, 5, EAST, saveButton);
+		
+		deleteButton.addActionListener(e -> {
+			target.remove(name.getString());
+		});
+		
+		add(deleteButton);
 
 		select(null);
 	}
