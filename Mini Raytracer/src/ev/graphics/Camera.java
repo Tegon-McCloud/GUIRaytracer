@@ -212,8 +212,8 @@ public class Camera {
 		
 		Ray r = new Ray(new Vec3(pos), new Vec3(0, 0, 1));
 		
-		r.dir.x = 2 * tanHalfHFov * xFrac - tanHalfHFov;
-		r.dir.y = 2 * tanHalfVFov * yFrac - tanHalfVFov;
+		r.dir.x = 2 * tanHalfHFov * xFrac - tanHalfHFov; // please refer to trigonometry for explanation.
+		r.dir.y = -2 * tanHalfVFov * yFrac + tanHalfVFov; // flip y
 		r.dir = r.dir.mul(rotation);
 		r.dir = r.dir.normalized();
 		
