@@ -47,10 +47,10 @@ public class Raytracer implements Renderer {
 	}
 	
 	/**
-	 * Beware 
+	 * Get the intersection between a ray and the scene geometry thats closest to the rays origin.
 	 * 
-	 * @param r
-	 * @return
+	 * @param r the Ray to cast
+	 * @return an Intersection representing the intersection between any scene geometry and r that is closest to r.ori
 	 */
 	private Intersection cast(Ray r) {
 		
@@ -70,14 +70,13 @@ public class Raytracer implements Renderer {
 	}
 	
 	/**
+	 * Traces a ray through the scene to determine what color a light ray taking the opposite path would have.
 	 * 
-	 * 
-	 * @param r
-	 * @param depth
-	 * @return
+	 * @param r the ray to trace
+	 * @param depth the number of times this has been called recursively
+	 * @return the color that a light ray taking the inverse path of r would have (or some estimate of it).
 	 */
 	private Vec3 trace(Ray r, int depth) {
-		
 		Intersection intersection = cast(r); // find whatever r intersects with first.
 		if(intersection.getShape() == null) {
 			return scene.background;
