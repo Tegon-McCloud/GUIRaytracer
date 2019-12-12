@@ -33,6 +33,8 @@ public class PlanePanel extends JPanel {
 
 	/**
 	 * Constructs a PlanePanel
+	 * 
+	 * @param target the HashMap to get data from
 	 */
 	public PlanePanel(HashMap<String, Shape> target) {
 		this.target = target;

@@ -33,6 +33,8 @@ public class SpherePanel extends JPanel {
 
 	/**
 	 * Constructs a SpherePanel
+	 * 
+	 * @param target the HashMap to get data from
 	 */
 	public SpherePanel(HashMap<String, Shape> target) {
 		this.target = target;

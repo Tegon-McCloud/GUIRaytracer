@@ -20,7 +20,8 @@ public class Plane extends Shape {
 	 * @param pos any point in the plane
 	 */
 	public Plane(Vec3 pos, Vec3 normal) {
-		this.normal = normal.normalized();
+		normal = normal.normalized();
+		this.normal = normal;
 		this.pos = pos;
 		
 		if(abs(normal.x) < EPSILON && abs(normal.y) < EPSILON) { // plane is almost flat with xy-plane

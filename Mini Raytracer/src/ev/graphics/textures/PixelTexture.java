@@ -75,7 +75,7 @@ public class PixelTexture<T> implements Texture2D<T> {
 	 * The intensity is mapped to [0, 1]. The glossiness is first mapped to [0, 1] then multiplied by 12 and used as a power of 2.
 	 * This give glossiness an interval of [1, 4096]
 	 * 
-	 * @param f
+	 * @param f the File to read the texture from
 	 * @return a PixelTexture<Vec2> with the specular values from f
 	 * @throws IOException if an IOException occurs reading the file
 	 */

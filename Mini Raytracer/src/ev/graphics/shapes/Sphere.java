@@ -13,11 +13,9 @@ public class Sphere extends Shape {
 	public Vec3 pos;
 	public float radius;
 	
-	
-	
 	/**
-	 * @param pos
-	 * @param radius
+	 * @param pos the center of the sphere
+	 * @param radius the radius of the sphere
 	 */
 	public Sphere(Vec3 pos, float radius) {
 		super();
